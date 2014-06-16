@@ -29,9 +29,11 @@
     if (_registView) {
         [_registView resetCheckCodeBtn];
     }
-    
     if (_forgetPasswordView) {
         [_forgetPasswordView resetCheckCodeBtn];
+    }
+    if ([_rightView.subviews objectAtIndex:0] == _userInfoView) {
+        [_userInfoView show];
     }
 }
 - (void)viewDidLoad

@@ -16,6 +16,7 @@
 
 +(int) isEnableWIFI;
 
++ (BOOL)isMobileNumber:(NSString *)mobileNum;
 +(BOOL)determineCellPhoneNumber:(NSString*)str;
 
 +(NSString*)MD5:(NSString*)str;

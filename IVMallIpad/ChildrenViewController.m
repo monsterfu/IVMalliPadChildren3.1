@@ -139,13 +139,18 @@
     _isWifiResume = NO;
   
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_CollectChanged object:nil];
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_LoginOut object:nil];
 }
 
 -(void)CollectChanged
 {
     [HttpRequest VideoAllRequest2:[AppDelegate App].personModel.tokenid channelCode:@"children" index:_index offset:MAXITEMNUM categoryId:_tmpCategoryId delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
 }
-
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_CollectChanged object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_LoginOut object:nil];
+}
 -(void)viewWillDisappear:(BOOL)animated
 {
     [HttpRequest myCancelAsi];

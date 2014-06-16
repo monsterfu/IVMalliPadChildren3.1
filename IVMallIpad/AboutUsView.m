@@ -117,8 +117,9 @@
 //    [sender setEnabled:NO];
     ASIHTTPRequest* asiRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:APP_URL]];
     asiRequest.tag=CHECKVERSION_TYPE;
-    [asiRequest setUseSessionPersistence:YES];
-    [asiRequest setUseCookiePersistence:YES];
+    [asiRequest setRequestMethod:@"GET"];
+//    [asiRequest setUseSessionPersistence:YES];
+//    [asiRequest setUseCookiePersistence:YES];
     [asiRequest setDefaultResponseEncoding:NSUTF8StringEncoding];
     [asiRequest setDelegate:self];
     [asiRequest setDidFinishSelector:@selector(GetResult:)];

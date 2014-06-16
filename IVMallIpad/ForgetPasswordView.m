@@ -443,6 +443,7 @@
 //                         _hihel=NO;
                          [self removeFromSuperview];
                          [_myView removeFromSuperview];
+                         [[AppDelegate App].personView showLoginView];
                      }];
 }
 
@@ -517,7 +518,7 @@
                 [userDefaults setObject:self.md5PassWord forKey:@"password"];
                 [userDefaults setObject:_verifyPassWordField.text forKey:@"password2"];
                 [userDefaults synchronize];
-                
+                [AppDelegate App].personModel.mobile = self.phoneTextField.text;
                 _checkCodeBtn.userInteractionEnabled = YES;
                 [_checkCodeBtn setTitle:@"获取验证码" forState:(UIControlStateNormal)];
                 [self releaseTImer];
@@ -573,7 +574,10 @@
 
 -(BOOL) textFieldShouldEndEditing:(UITextField *)textField
 {
-    [_myScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    if (textField == _verifyPassWordField||textField == _checkCodeField) {
+        [_myScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    }
+    
     if (_hihel == NO) {
         return YES;
     }
@@ -626,6 +630,10 @@
 {
     if (textField.tag == 2002) {
         _isPasswordFiledEdting = YES;
+    }
+    
+    if (textField == _verifyPassWordField||textField == _checkCodeField){
+        [_myScrollView setContentOffset:CGPointMake(0, 60) animated:YES];
     }
 }
 
@@ -700,9 +708,6 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (textField == _checkCodeField) {
-        [_myScrollView setContentOffset:CGPointMake(0, 60) animated:YES];
-    }
     return YES;
 }
 

@@ -258,6 +258,13 @@ static UIView*sleckView;
     
     if ([ad.adType isEqualToString:@"image"]) {
         if (ad.adAnchor) {
+            if ([ad.adAnchor isEqualToString:REGIST_AD_URL]) {
+                if (![AppDelegate App].isLogin) {
+                    MainViewController * main = (MainViewController *)[[AppDelegate App].tabBarController.viewControllers objectAtIndex:0];
+                    [main clickUserButton:nil];
+                    return;
+                }
+            }
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ad.adAnchor]];
             return;
         }
@@ -638,10 +645,8 @@ static UIView*sleckView;
 
 
 -(void)clickUserButton:(UIButton*)sender{
-
-//    [Commonality clickUserBtn];
-    
     PersonnalCenter * personView = [AppDelegate App].personView;
+    [personView showLoginView];
     UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:personView];
     nav.navigationBarHidden = YES;
     [[AppDelegate App].tabBarController.navigationController pushViewController:personView animated:YES];

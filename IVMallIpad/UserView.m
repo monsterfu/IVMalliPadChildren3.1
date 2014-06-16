@@ -547,8 +547,6 @@
 
 -(void)clickLogOut{
     [HttpRequest logOutRequest:[AppDelegate App].personModel.tokenid delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
-    [HttpRequest CannelEquipmentRequest:[AppDelegate App].personModel.tokenid deviceDRMId:[[AppDelegate App].deviceInfoDic objectForKey:@"deviceDRMId"] DRMType:[[AppDelegate App].deviceInfoDic objectForKey:@"drmType"] delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
-    
     AppDelegate.App.isLogin=NO;
     AppDelegate.App.personModel.tokenid=@"";
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -560,7 +558,7 @@
     _logOutButton.hidden=YES;
     [_myTableView reloadData];
     [self makeLogInView];
-    
+    [AppDelegate.App.personView showLoginView];
     switch ([AppDelegate App].tabBarController.viewCtlNum) {
         case 0:
         {
@@ -616,6 +614,9 @@
 }
 
 -(void) GetErr:(ASIHTTPRequest *)request{
+    if (request.tag == LOGOUTURLNEW_TYPE) {
+        return;
+    }
     [Commonality showErrorMsg:self type:0 msg:@"网络连接异常，请重试"];
 }
 
@@ -757,6 +758,7 @@
 //                _logOutButton.hidden=YES;
                 [_myTableView reloadData];
                 [self mackNoLongInView];
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_LoginOut object:self userInfo:nil];
             }else{
                 [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:nil];
             }
@@ -847,7 +849,14 @@
 }
 #pragma mark -
 #pragma mark UITableView Datasource
-
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 5)
+    {
+        return NO;
+    }
+    return YES;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 55;
@@ -897,7 +906,6 @@
         {
             balanceLabel.text = [NSString stringWithFormat:@"%@猫币",[AppDelegate App].personModel.balance];
         }
-        
     }else{
         cell.selectionStyle=UITableViewCellSelectionStyleGray;
         cell.selectedBackgroundView = selectedBackView;
@@ -929,121 +937,6 @@
         [_userDatadelegate clickTableViewIndex:indexPath.row];
     }
 
-    
-    
-//    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-//    _myCharge=[userDefaultes objectForKey:@"charge_Ivmall"];
-//    if (_myCharge && [_myCharge isEqualToString:@"true"]) {
-//        
-//        if (indexPath.row != 7) {
-//            if (![AppDelegate App].isLogin) {
-//                
-//                [self mackNoLongInView];
-//                _backButton.hidden = NO;
-//                
-//                return;
-//            }
-//        }
-//        
-//        if (indexPath.row == 0 + 1) {
-//            if ([AppDelegate App].playedTimeView==nil) {
-//                NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"PlayTimeView" owner:self options:nil];
-//                [AppDelegate App].playedTimeView = [nib objectAtIndex:0];
-//            }
-//            [[AppDelegate App].playedTimeView show];
-//        }
-//        if (indexPath.row == 0 + 1+ 1) {
-//            if ([AppDelegate App].collect==nil) {
-//                [AppDelegate App].collect=[[CollectView alloc]initMy];
-//            }
-//            [[AppDelegate App].collect show];
-//        }
-//        else if (indexPath.row == 1 + 1+ 1)
-//        {
-//            if ([AppDelegate App].buyView==nil) {
-//                [AppDelegate App].buyView=[[BuyView alloc]initMy];
-//            }
-//            [[AppDelegate App].buyView show];
-//        }
-//        else if (indexPath.row == 2 + 1+ 1)
-//        {
-//            if ([AppDelegate App].rechargeRecordView==nil) {
-//                [AppDelegate App].rechargeRecordView=[[RechargeRecordView alloc]initMy];
-//            }
-//            [[AppDelegate App].rechargeRecordView show];
-//        }
-//        else if (indexPath.row == 3 + 1+ 1)
-//        {
-//            
-//        }
-//        else if (indexPath.row == 4 + 1+ 1)
-//        {
-//            if ([AppDelegate App].rechargeView==nil) {
-//                [AppDelegate App].rechargeView=[[RechargeView alloc]initMy];
-//            }
-//            
-//            [Commonality anmou1View:[AppDelegate App].rechargeView delegate:[AppDelegate App].tabBarController];        
-//            [[AppDelegate App].rechargeView show];
-//        }
-//        else if (indexPath.row == 5 + 1+ 1)
-//        {
-//            if ([AppDelegate App].forgetPasswordView==nil) {
-//                [AppDelegate App].forgetPasswordView=[[ForgetPasswordView alloc]initMy];
-//            }
-//            [AppDelegate App].forgetPasswordView.isForgetType = NO;
-//            [[AppDelegate App].forgetPasswordView show];
-//        }
-//        else if (indexPath.row == 6 + 1+ 1)
-//        {
-//            if ([AppDelegate App].aboutUsView==nil) {
-//                [AppDelegate App].aboutUsView=[[AboutUsView alloc]initMy];
-//            }
-//            [[AppDelegate App].aboutUsView show];
-//        }
-//    }
-//    else
-//    {
-//        
-//        if (indexPath.row != 3+ 1) {
-//            if (![AppDelegate App].isLogin) {
-//                
-//                [self mackNoLongInView];
-//                _backButton.hidden = NO;
-//                
-//                return;
-//            }
-//        }
-//        
-//        if (indexPath.row == 0+ 1) {
-//            if ([AppDelegate App].playedTimeView==nil) {
-//                NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"PlayTimeView" owner:self options:nil];
-//                [AppDelegate App].playedTimeView = [nib objectAtIndex:0];
-//            }
-//            [[AppDelegate App].playedTimeView show];
-//        }
-//        if (indexPath.row == 0 + 1+ 1) {
-//            if ([AppDelegate App].collect==nil) {
-//                [AppDelegate App].collect=[[CollectView alloc]initMy];
-//            }
-//            [[AppDelegate App].collect show];
-//        }
-//        else if (indexPath.row == 1 + 1+ 1)
-//        {
-//            if ([AppDelegate App].forgetPasswordView==nil) {
-//                [AppDelegate App].forgetPasswordView=[[ForgetPasswordView alloc]initMy];
-//            }
-//            [AppDelegate App].forgetPasswordView.isForgetType = NO;
-//            [[AppDelegate App].forgetPasswordView show];
-//        }
-//        else if (indexPath.row == 2 + 1+ 1)
-//        {
-//            if ([AppDelegate App].aboutUsView==nil) {
-//                [AppDelegate App].aboutUsView=[[AboutUsView alloc]initMy];
-//            }
-//            [[AppDelegate App].aboutUsView show];
-//        }
-//    }
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(void)releaseTableView

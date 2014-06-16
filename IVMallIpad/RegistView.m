@@ -272,6 +272,11 @@
         [Commonality showErrorMsg:self type:0 msg:@"请输入正确的手机格式!"];
         return;
     }
+    
+    if ([Commonality isMobileNumber:_phoneTextField.text]==NO) {
+        [Commonality showErrorMsg:self type:0 msg:@"请输入正确的手机格式!"];
+        return;
+    }
     _checkCodeBtn.enabled = NO;
     ASIHTTPRequest* asiRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:CHECKMOBILEURL]];
     NSString*str=[NSString stringWithFormat:@"{\"mobile\":\"%@\"}",_phoneTextField.text];
@@ -388,7 +393,7 @@
             else{
 
 //                 [Commonality showErrorMsg:self type:0 msg:@"正在请求验证码中......"];
-                
+                _checkCodeBtn.enabled = YES;
                 
                 [HttpRequest CheckCodeRequest:_phoneTextField.text delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
                 
@@ -456,7 +461,7 @@
 
 -(BOOL) textFieldShouldEndEditing:(UITextField *)textField
 {
-    if(textField == _verifyPassWordField)
+    if (textField == _verifyPassWordField||textField == _checkCodeField||textField == _privilegesField)
     {
         [_myScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     }
@@ -498,6 +503,11 @@
 {
     if (textField.tag == 2002) {
         _isPasswordFiledEdting = YES;
+    }
+    
+    if (textField == _verifyPassWordField||textField == _checkCodeField||textField == _privilegesField)
+    {
+        [_myScrollView setContentOffset:CGPointMake(0, 150) animated:YES];
     }
 }
 
@@ -559,10 +569,6 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if(textField == _verifyPassWordField)
-    {
-        [_myScrollView setContentOffset:CGPointMake(0, 150) animated:YES];
-    }
     return YES;
 }
 

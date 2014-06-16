@@ -90,7 +90,7 @@
         _tabelView.separatorStyle=NO;
         _tabelView.dataSource=self;
         _tabelView.delegate=self;
-        _tabelView.scrollEnabled = YES;
+        _tabelView.scrollEnabled = NO;
         
         [self addSubview:_tabelView];
         _tableViewPoint = _tabelView.center;
@@ -253,7 +253,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"MainCell_%d",indexPath.row]];
     
-    if (cell == nil) {
+    if (1){//cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"MainCell_%d",indexPath.row]];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
 //    }
@@ -546,7 +546,7 @@
                 
                 [[[AppDelegate App] personView].userView  reloder];
                 [Commonality showErrorMsg:self type:0 msg:@"您更新成功!"];
-                [self performSelector:@selector(dismiss) withObject:nil afterDelay:0.5];
+                //[self performSelector:@selector(dismiss) withObject:nil afterDelay:0.5];
             }else{
                 [Commonality showErrorMsg:self type:um.result msg:nil];
             }
@@ -566,7 +566,6 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
 
     _tabelView.center = _tableViewPoint;
-//    self.frame = CGRectMake(rect.size.height/2 - (rect.size.height - 500)/2 , rect.size.width/2 - (rect.size.width- 450+ 55)/2, rect.size.height - 500, rect.size.width- 450+ 55);
     NSIndexPath * path = [NSIndexPath indexPathForRow:0 inSection:0];
     [_tabelView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
     [textField resignFirstResponder];
@@ -576,15 +575,6 @@
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    //_tabelView.center = _tableViewPoint;
-    if (!(_adressTextField.isEditing == YES )) {
-//        self.center =[UIApplication sharedApplication].keyWindow.center;
-//        self.frame = CGRectMake(rect.size.height/2 - (rect.size.height - 500)/2 , rect.size.width/2 - (rect.size.width- 450+ 55)/2, rect.size.height - 500, rect.size.width- 450+ 55);
-
-        
-    }
-    //NSIndexPath * path = [NSIndexPath indexPathForRow:0 inSection:0];
-    //[_tabelView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
     return YES;
 }
 

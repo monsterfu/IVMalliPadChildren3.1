@@ -22,6 +22,9 @@
 #define BASE @"http://api.ivmall.com"
 //#define NSLog(...) {}
 
+
+#define REGIST_AD_URL   @"http://www.ivmall.com.cn/user/register"
+
 #define LOGINURL [BASE stringByAppendingString:@"/user/login.action"]//登陆链接
 #define REGISTURL [BASE stringByAppendingString:@"/user/register.action"]//注册
 #define SMSCHECKURL [BASE stringByAppendingString:@"/user/sms.action"]//短信验证码
@@ -174,5 +177,5 @@
 #define alpha_3 0.6
 #define alpha_4 0.8
 
-
 #define NSNotificationCenter_CollectChanged     @"NSNotificationCenter_CollectChanged"
+#define NSNotificationCenter_LoginOut     @"NSNotificationCenter_LoginOut"
