@@ -192,12 +192,12 @@ static int height = 0;
     [_tabelView addSubview:_nodataView];
     _nodataView.hidden = YES;
     
-    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(newRect.size.height/2 - 170, 0, 200, 200)];
+    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(newRect.size.height/2 - 150, 0, 200, 200)];
     imageView.backgroundColor = [UIColor clearColor];
     imageView.image = [UIImage imageNamed:@"recording.png"];
     [_nodataView addSubview:imageView];
     
-    UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(-80, 220, _nodataView.frame.size.width, 30)];
+    UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(-55, 220, _nodataView.frame.size.width, 30)];
     lab.backgroundColor = [UIColor clearColor];
     lab.text = @"没有最近观看记录哦";
     lab.textColor = [UIColor blackColor];
@@ -687,7 +687,10 @@ static int height = 0;
     [_tabelView reloadData];
 }
 
-
+-(void)fresh
+{
+    [HttpRequest playListRequest:[AppDelegate App].personModel.tokenid delegate:self page:1 finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
+}
 
 -(void)show{
     

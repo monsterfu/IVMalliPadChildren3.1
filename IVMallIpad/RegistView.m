@@ -62,7 +62,7 @@
                                                                                   action:@selector(tapAnywhereToDismissKeyboard:)];
     [self addGestureRecognizer:singleTapGR];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boxValueChanged) name:UITextFieldTextDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boxValueChanged) name:UITextFieldTextDidChangeNotification object:nil];
     
     _phoneTextField = [[JYTextField alloc]initWithFrame:CGRectMake(0, 0, 417, 51)
                                             cornerRadio:6
@@ -416,6 +416,8 @@
                 AppDelegate.App.personModel.mobile=_phoneTextField.text;
                 AppDelegate.App.personModel.password=self.md5PassWord;
                 AppDelegate.App.personModel.nickname = @"";
+                AppDelegate.App.personModel.address = @"";
+                AppDelegate.App.personModel.email = @"";
                 [Commonality showErrorMsg:self type:0 msg:@"您已注册成功!"];
                 [self releaseTImer];
                 
@@ -463,7 +465,7 @@
 {
     if (textField == _verifyPassWordField||textField == _checkCodeField||textField == _privilegesField)
     {
-        [_myScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [_myScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
     }
     if (_hihel == NO) {
         return YES;
@@ -533,7 +535,7 @@
             return YES;
         }
     }else if(textField.tag==2002){
-        
+        [self boxValueChanged];
         if(range.location>19){
             [Commonality showErrorMsg:self type:0 msg:@"密码输入不能超过20位"];
             return NO;
@@ -627,6 +629,7 @@
         [_checkCodeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_checkCodeBtn setEnabled:NO];
         [_checkCodeBtn setTitle:title forState:UIControlStateNormal];
+        [_checkCodeBtn setTitle:title forState:UIControlStateDisabled];
         _checkCodeBtn.titleLabel.textColor = [Commonality colorFromHexRGB: @"656565"];
         _checkCodeBtn.titleLabel.shadowColor = [Commonality colorFromHexRGB:@"acacac"];
         _checkCodeBtn.titleLabel.shadowOffset = CGSizeMake(0.5,0.5);

@@ -38,7 +38,7 @@
     UIButton * alipayBtn;
     UIView * paySucceedBagegroundView;
     UIImageView * backgroundImageView;
-    UITextField* customPriceField;
+    JYTextField* customPriceField;
     UIButton * customPriceButton;
     
 }

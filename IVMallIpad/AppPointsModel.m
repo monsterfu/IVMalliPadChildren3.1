@@ -37,7 +37,7 @@
                 }
                 
                 //增加自定义LIST
-                NSDictionary* customerPiceDic = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"points",@"1",@"price", nil];
+                NSDictionary* customerPiceDic = [NSDictionary dictionaryWithObjectsAndKeys:@"0",@"points",@"0",@"price", nil];
                 AppPointModel* um = [[AppPointModel alloc]initWithDictionary:customerPiceDic];
                 [_list addObject:um];
             }

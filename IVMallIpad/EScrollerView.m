@@ -91,7 +91,7 @@
         pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake((self.frame.size.width-pageControlWidth)-7,5, pageControlWidth + 5, pagecontrolHeight)];
         pageControl.currentPage=0;
         pageControl.numberOfPages=(pageCount-2);
-        pageControl.pageIndicatorTintColor=color_14;
+        pageControl.pageIndicatorTintColor=color_23;
         pageControl.currentPageIndicatorTintColor=color_2;
         [noteView addSubview:pageControl];
 

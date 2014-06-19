@@ -13,7 +13,7 @@
 #define FAIILURE @"当前网络不可用，请检查网络！"
 #define LINGKERROR @"网络连接异常，请重试!"
 #define NOWIFIERROR @"当前网络异常,请先退出应用配置网络"
-#define IVMALL_VERSION @"3.1.2"
+#define IVMALL_VERSION @"3.1.3"
 #define ALOPH 0.6
 #define PROMOTER @"20000"
 
@@ -161,6 +161,7 @@
 #define color_20 [Commonality colorFromHexRGB:@"7eb9cc"]
 #define color_21 [Commonality colorFromHexRGB:@"f1f9fb"]
 #define color_22 [Commonality colorFromHexRGB:@"f0f5f8"]
+#define color_23 [Commonality colorFromHexRGB:@"43bde5"]
 
 #define font_1 [UIFont boldSystemFontOfSize:10]
 #define font_2 [UIFont boldSystemFontOfSize:12]
@@ -177,5 +178,9 @@
 #define alpha_3 0.6
 #define alpha_4 0.8
 
-#define NSNotificationCenter_CollectChanged     @"NSNotificationCenter_CollectChanged"
-#define NSNotificationCenter_LoginOut     @"NSNotificationCenter_LoginOut"
+#define NSNotificationCenter_Play                   @"NSNotificationCenter_Play"
+#define NSNotificationCenter_CollectChanged         @"NSNotificationCenter_CollectChanged"
+#define NSNotificationCenter_LoginOut               @"NSNotificationCenter_LoginOut"
+#define NSNotificationCenter_BuyVipSuccess          @"NSNotificationCenter_BuyVipSuccess"
+#define NSNotificationCenter_LoginIn                @"NSNotificationCenter_LoginIn"
+

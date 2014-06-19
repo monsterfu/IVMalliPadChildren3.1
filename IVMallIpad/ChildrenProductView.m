@@ -125,6 +125,7 @@
             if ([[dictionary objectForKey:@"errorCode"]intValue]==0) {
                 [_favouriteBtn setBackgroundImage:[UIImage imageNamed:@"onLIveCollec2.png"] forState:(UIControlStateNormal)];
                 self.isCollect = YES;
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:self userInfo:nil];
             }else{
                 [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];
             }
@@ -133,6 +134,7 @@
             if ([[dictionary objectForKey:@"errorCode"]intValue]==0) {
                 [_favouriteBtn setBackgroundImage:[UIImage imageNamed:@"onLIveCollec.png"] forState:(UIControlStateNormal)];
                 self.isCollect = NO;
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:self userInfo:nil];
             }else{
                 [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];
             }

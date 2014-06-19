@@ -67,7 +67,11 @@
         _buttonBlock(sender);
     
     UIViewController* main;
-    main = [AppDelegate App].personView;
+    if (_isMain) {
+        main = [AppDelegate App].tabBarController;
+    }else{
+        main = [AppDelegate App].personView;
+    }
     [UIView animateWithDuration:1.0
                      animations:^{
                          CGAffineTransform transform = CGAffineTransformScale(self.transform,0,0);
@@ -82,26 +86,6 @@
                              view1.hidden = NO;
                              view2.hidden = NO;
                          }
-                         
-//
-//                         if ([view1 isKindOfClass:[BuyVipView class]]) {
-//                             BuyVipView * buyView = (BuyVipView *)view1;
-//                             buyView.balanceLab.text = [NSString stringWithFormat:@"帐号余额：%@猫币",[AppDelegate App].personModel.balance];
-//                         }
-//                         if ([view2 isKindOfClass:[BuyVipView class]]) {
-//                             BuyVipView * buyView = (BuyVipView *)view2;
-//                             buyView.balanceLab.text = [NSString stringWithFormat:@"帐号余额：%@猫币",[AppDelegate App].personModel.balance];
-//                         }
-//                         
-//                         if ([view1 isKindOfClass:[UserView class]]) {
-//                             UserView * user = (UserView *)view1;
-//                             [user.myTableView reloadData];
-//                         }
-//                         if ([view2 isKindOfClass:[UserView class]]) {
-//                             UserView * user = (UserView *)view2;
-//                             [user.myTableView reloadData];
-//                         }
-                         
                          self.transform = CGAffineTransformIdentity;
                          
                      }];

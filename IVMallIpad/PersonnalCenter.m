@@ -32,7 +32,7 @@
     if (_forgetPasswordView) {
         [_forgetPasswordView resetCheckCodeBtn];
     }
-    if ([_rightView.subviews objectAtIndex:0] == _userInfoView) {
+    if ([_rightView.subviews lastObject] == _userInfoView) {
         [_userInfoView show];
     }
 }
@@ -78,8 +78,9 @@
     
     _rightView = [[UIView alloc] initWithFrame:CGRectMake(_userView.frame.size.width, navGationBar.frame.size.height + 20, self.view.frame.size.height - _userView.frame.size.width, _userView.frame.size.height)];
     _rightView.backgroundColor = color_21;
-    [self.view addSubview:_rightView];
+    
     [self.view addSubview:_userView];
+    [self.view addSubview:_rightView];
     [self makeLoginView];
     
     if ([AppDelegate App].isLogin) {
@@ -96,6 +97,39 @@
     }
 
     lastClickIndex = 100;
+    
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_CollectChanged object:nil];
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(playHistoryChanged) name:
+     NSNotificationCenter_Play object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyVipSuccess) name:NSNotificationCenter_BuyVipSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:NSNotificationCenter_LoginIn object:nil];
+}
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_CollectChanged object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_Play object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_LoginIn object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_BuyVipSuccess object:nil];
+}
+
+-(void)loginSuccess
+{
+    lastClickIndex = 100;
+}
+
+-(void)CollectChanged
+{
+    [_collectView fresh];
+}
+
+-(void)playHistoryChanged
+{
+    [_playHiestoryView fresh];
+}
+
+-(void)buyVipSuccess
+{
+    [_userView reloder];
 }
 
 -(void)dismissSelf
@@ -212,6 +246,7 @@
 
 -(void)showMyForgetPasswordView
 {
+//    [AppDelegate App].personModel.mobile = _myPhoneTextField.text;
     if (_forgetPasswordView != nil) {
         [_forgetPasswordView removeFromSuperview];
     }
@@ -226,7 +261,13 @@
     _myPassWordTextField.text = @"";
     UIView * view = [_rightView.subviews lastObject];
     if (view) {
-        [view removeFromSuperview];
+        if ([view isKindOfClass:[UserInfoView class]]) {
+            [view removeFromSuperview];
+        }
+        UIView * view = [_rightView.subviews lastObject];
+        if (view) {
+            [view removeFromSuperview];
+        }
     }
     [_rightView addSubview:_loginView];
 
@@ -308,52 +349,55 @@
         }
         
         if (index == 0) {
-            if (_playHiestoryView == nil) {
-                _playHiestoryView = [[PlayHistoryView alloc] initMyWithFrame:_rightView.bounds];
+            if (_playHiestoryView != nil) {
+                [_playHiestoryView removeFromSuperview];
             }
+            _playHiestoryView = [[PlayHistoryView alloc] initMyWithFrame:_rightView.bounds];
             [_playHiestoryView show];
             [_rightView addSubview:_playHiestoryView];
         }
         
         
         else if (index == 0 + 1) {
-            if (_playTimeView == nil) {
-                NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"PlayTimeView" owner:self options:nil];
-                _playTimeView = [nib objectAtIndex:0];
-                _playTimeView.frame = _rightView.bounds;
+            if (_playTimeView != nil) {
+                [_playTimeView removeFromSuperview];
             }
+            NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"PlayTimeView" owner:self options:nil];
+            _playTimeView = [nib objectAtIndex:0];
+            _playTimeView.frame = _rightView.bounds;
             [_playTimeView show];
             [_rightView addSubview:_playTimeView];
         }
        else if (index == 0 + 1+ 1) {
             
-            if (_collectView == nil) {
-                _collectView = [[CollectView alloc] initMyWithFrame:_rightView.bounds];
-                _collectView.showGatherDelegate = self;
-                _collectView.showProgramDelegate = self;
+            if (_collectView != nil) {
+                [_collectView removeFromSuperview];
             }
+            _collectView = [[CollectView alloc] initMyWithFrame:_rightView.bounds];
+            _collectView.showGatherDelegate = self;
+            _collectView.showProgramDelegate = self;
             [_collectView show];
             [_rightView addSubview:_collectView];
           
         }
         else if (index == 1 + 1+ 1)
         {
-            if (_buyView == nil) {
-                _buyView = [[BuyView alloc] initMyWithFrame:_rightView.bounds];
-                _buyView.frame = _rightView.bounds;
-                _buyView.tabelView.frame = CGRectMake(0, _buyView.tabelView.frame.origin.y, _rightView.frame.size.width - 40 , _buyView.tabelView.frame.size.height);
+            if (_buyView != nil) {
+                [_buyView removeFromSuperview];
             }
+            _buyView = [[BuyView alloc] initMyWithFrame:_rightView.bounds];
+            _buyView.frame = _rightView.bounds;
+            _buyView.tabelView.frame = CGRectMake(0, _buyView.tabelView.frame.origin.y, _rightView.frame.size.width - 40 , _buyView.tabelView.frame.size.height);
             [_buyView show];
             [_rightView addSubview:_buyView];
             
         }
         else if (index == 2 + 1+ 1)
         {
-            if (_rechargeRecordView == nil) {
-                _rechargeRecordView = [[RechargeRecordView alloc] initMyWithFram:_rightView.bounds];
-//                _rechargeRecordView.frame = _rightView.bounds;
-//                _rechargeRecordView.tableView.frame = CGRectMake(0, _rechargeRecordView.tableView.frame.origin.y, _rightView.frame.size.width - 40 , _rechargeRecordView.tableView.frame.size.width);
+            if (_rechargeRecordView != nil) {
+                [_rechargeRecordView removeFromSuperview];
             }
+            _rechargeRecordView = [[RechargeRecordView alloc] initMyWithFram:_rightView.bounds];
             [_rechargeRecordView show];
             [_rightView addSubview:_rechargeRecordView];
 
@@ -368,21 +412,20 @@
         }
         else if (index == 5 + 1+ 1)
         {
-            if (_forgetPasswordView==nil) {
-                _forgetPasswordView=[[ForgetPasswordView alloc]initMyWithRect:_rightView.bounds];
-//                _forgetPasswordView.frame = _rightView.bounds;
-                
+            if (_forgetPasswordView != nil) {
+                [_forgetPasswordView removeFromSuperview];
             }
+            _forgetPasswordView=[[ForgetPasswordView alloc]initMyWithRect:_rightView.bounds];
             _forgetPasswordView.isForgetType = NO;
             [_forgetPasswordView show];
             [_rightView addSubview:_forgetPasswordView];
         }
         else if (index == 6 + 1+ 1)
         {
-            if (_aboutUsView==nil) {
-                _aboutUsView=[[AboutUsView alloc]initMyWithFrame:_rightView.bounds];
-//                _aboutUsView.frame = _rightView.bounds;
+            if (_aboutUsView != nil) {
+                [_aboutUsView removeFromSuperview];
             }
+            _aboutUsView=[[AboutUsView alloc]initMyWithFrame:_rightView.bounds];
             [_aboutUsView show];
             [_rightView addSubview:_aboutUsView];
         }
@@ -408,48 +451,50 @@
         }
         
         if (index == 0) {
-            if (_playHiestoryView == nil) {
-                _playHiestoryView = [[PlayHistoryView alloc] initMyWithFrame:_rightView.bounds];
+            if (_playHiestoryView != nil) {
+                [_playHiestoryView removeFromSuperview];
             }
+            _playHiestoryView = [[PlayHistoryView alloc] initMyWithFrame:_rightView.bounds];
             [_playHiestoryView show];
             [_rightView addSubview:_playHiestoryView];
         }
         
         if (index == 0+ 1) {
-            if (_playTimeView == nil) {
-                NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"PlayTimeView" owner:self options:nil];
-                _playTimeView = [nib objectAtIndex:0];
-                _playTimeView.frame = _rightView.bounds;
+            if (_playTimeView != nil) {
+                [_playTimeView removeFromSuperview];
             }
+            NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"PlayTimeView" owner:self options:nil];
+            _playTimeView = [nib objectAtIndex:0];
+            _playTimeView.frame = _rightView.bounds;
             [_playTimeView show];
             [_rightView addSubview:_playTimeView];
         }
         if (index == 0 + 1+ 1) {
-            if (_collectView == nil) {
-                _collectView = [[CollectView alloc] initMyWithFrame:_rightView.bounds];
-                _collectView.showGatherDelegate = self;
-                _collectView.showProgramDelegate = self;
+            if (_collectView != nil) {
+                [_collectView removeFromSuperview];
             }
+            _collectView = [[CollectView alloc] initMyWithFrame:_rightView.bounds];
+            _collectView.showGatherDelegate = self;
+            _collectView.showProgramDelegate = self;
             [_collectView show];
             [_rightView addSubview:_collectView];
         }
         else if (index == 1 + 1+ 1)
         {
-            if (_forgetPasswordView==nil) {
-                _forgetPasswordView=[[ForgetPasswordView alloc]initMyWithRect:_rightView.bounds];
-//                _forgetPasswordView.frame = _rightView.bounds;
-                
+            if (_forgetPasswordView !=nil) {
+                [_forgetPasswordView removeFromSuperview];
             }
+            _forgetPasswordView=[[ForgetPasswordView alloc]initMyWithRect:_rightView.bounds];
             _forgetPasswordView.isForgetType = NO;
             [_forgetPasswordView show];
             [_rightView addSubview:_forgetPasswordView];
         }
         else if (index == 2 + 1+ 1)
         {
-            if (_aboutUsView==nil) {
-                _aboutUsView=[[AboutUsView alloc]initMyWithFrame:_rightView.bounds];
-//                _aboutUsView.frame = _rightView.bounds;
+            if (_aboutUsView!=nil) {
+                [_aboutUsView removeFromSuperview];
             }
+            _aboutUsView=[[AboutUsView alloc]initMyWithFrame:_rightView.bounds];
             [_aboutUsView show];
             [_rightView addSubview:_aboutUsView];
         }
@@ -458,9 +503,10 @@
 
 -(void)showRecharView1
 {
-    if (_rechargeView==nil) {
-        _rechargeView=[[RechargeView alloc]initMyWithFrame:_rightView.bounds];
+    if (_rechargeView!=nil) {
+        [_rechargeView removeFromSuperview];
     }
+    _rechargeView=[[RechargeView alloc]initMyWithFrame:_rightView.bounds];
     _rechargeView.isFromMainShowing = NO;
     _rechargeView.isFromMainShowingExt = YES;
     _rechargeView.ViewCtl = self;

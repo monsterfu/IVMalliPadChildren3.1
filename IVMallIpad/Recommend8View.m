@@ -46,8 +46,10 @@
             
             for (int j=0; j<iscont2; j++) {
                 ChannelCatContentListModel*catModel=[array objectAtIndex:LINE_MAXNUM*i+j];
-                
-                UIImageView*imgVIew=[[UIImageView alloc]initWithFrame:CGRectMake(48*(j+1)+(frame.size.width-282)/LINE_MAXNUM*j, frame.size.height/2*i + LINE_MAXNUM + i * 14, (frame.size.width-282)/LINE_MAXNUM, frame.size.height/2-60 - 24)];
+                UIView* whiteBgView = [[UIView alloc]initWithFrame:CGRectMake(48*(j+1)+(frame.size.width-282)/LINE_MAXNUM*j, frame.size.height/2*i + LINE_MAXNUM + i * 14, (frame.size.width-312)/LINE_MAXNUM, frame.size.height/2-60 - 24)];
+                [whiteBgView setBackgroundColor:[UIColor whiteColor]];
+                CGRect whiteBgViewRect = whiteBgView.frame;
+                UIImageView*imgVIew=[[UIImageView alloc]initWithFrame:CGRectMake(3,3,whiteBgViewRect.size.width-6,whiteBgViewRect.size.height-6)];
                 
 //                NSLog(@"imgView.x is %f y is %f wide is %f height is %f",imgVIew.frame.origin.x,imgVIew.frame.origin.y,imgVIew.frame.size.width,imgVIew.frame.size.height);
                 
@@ -82,10 +84,10 @@
 
                 }
                 
-                UIImageView*imgVIew2 = [[UIImageView alloc] initWithFrame:CGRectMake(imgVIew.frame.origin.x - 16, imgVIew.frame.origin.y + 3.5 , imgVIew.frame.size.width + 32, imgVIew.frame.size.height + 20)];
+                UIImageView*imgVIew2 = [[UIImageView alloc] initWithFrame:CGRectMake(whiteBgView.frame.origin.x - 16, whiteBgView.frame.origin.y + 3.5 , whiteBgView.frame.size.width + 32, whiteBgView.frame.size.height + 20)];
                 imgVIew2.image = [UIImage imageNamed:@"CloudCoverage3.png"];
                 
-                _titleLabe=[[UILabel alloc]initWithFrame:CGRectMake(26*(j+1)+(frame.size.width-182)/LINE_MAXNUM*j, frame.size.height/2*i+imgVIew.frame.size.height+5 + 6 + i * 14, (frame.size.width-182)/LINE_MAXNUM, 20)];
+                _titleLabe=[[UILabel alloc]initWithFrame:CGRectMake(26*(j+1)+(frame.size.width-182)/LINE_MAXNUM*j, frame.size.height/2*i+whiteBgView.frame.size.height+5 + 6 + i * 14, (frame.size.width-182)/LINE_MAXNUM, 20)];
 //                _titleLabe=[[UILabel alloc]initWithFrame:CGRectMake(16,imgVIew2.frame.size.height - 20,(frame.size.width-182)/6,20)];
                 _titleLabe.text=catModel.contentTitle;
                 _titleLabe.textColor=color_2;
@@ -100,7 +102,7 @@
 
             
                 UIButton*favButton=[UIButton buttonWithType:(UIButtonTypeCustom)];
-                favButton.frame=CGRectMake(imgVIew.frame.size.width-34, imgVIew.frame.size.height-34 - 30, 34, 34);
+                favButton.frame=CGRectMake(whiteBgView.frame.size.width-34, whiteBgView.frame.size.height-34 - 30, 34, 34);
                 favButton.tag=imgVIew.tag;
                 favButton.alpha=ALOPH;
                 favButton.backgroundColor=[UIColor clearColor];
@@ -153,13 +155,14 @@
             
                 [imgVIew addSubview:favButton];
                 
-                UIImageView*imgVIew1 = [[UIImageView alloc] initWithFrame:CGRectMake(imgVIew.frame.origin.x - 16, imgVIew.frame.origin.y , imgVIew.frame.size.width + 32, imgVIew.frame.size.height + 20)];
+                UIImageView*imgVIew1 = [[UIImageView alloc] initWithFrame:CGRectMake(whiteBgView.frame.origin.x - 16, whiteBgView.frame.origin.y , whiteBgView.frame.size.width + 32, whiteBgView.frame.size.height + 20)];
                 imgVIew1.image = [UIImage imageNamed:@"book_Selected2.png"];
                 
 //                UIImageView*imgVIew2 = [[UIImageView alloc] initWithFrame:CGRectMake(imgVIew.frame.origin.x - 16, imgVIew.frame.origin.y + 3.5 , imgVIew.frame.size.width + 32, imgVIew.frame.size.height + 20)];
 //                imgVIew2.image = [UIImage imageNamed:@"CloudCoverage2.png"];
 //                [self addSubview:imgVIew1];
-                [self addSubview:imgVIew];
+                [whiteBgView addSubview:imgVIew];
+                [self addSubview:whiteBgView];
                 [self addSubview:imgVIew2];
                 _titleLabe.frame = CGRectMake(16,imgVIew2.frame.size.height - 35,(frame.size.width-182)/6,20);
             }

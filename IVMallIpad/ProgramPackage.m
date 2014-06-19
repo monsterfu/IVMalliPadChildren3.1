@@ -29,7 +29,7 @@
         rect=[[UIScreen mainScreen]bounds];
         UIViewController * main = [AppDelegate App].tabBarController;
         _myView = [[UIView alloc] init];
-        _myView.frame = main.view.frame;
+        _myView.frame = CGRectZero;
         _myView.backgroundColor=[UIColor blackColor];
         _myView.alpha=0;
         _myView.userInteractionEnabled=YES;
@@ -85,7 +85,7 @@
             UIView * view1 = [per.view.subviews lastObject];
             
             if (view1 != per.userView) {
-                view1.hidden = YES;
+                //view1.hidden = YES;
             }
             
         }
@@ -97,7 +97,6 @@
         {
             [HttpRequest productListRequest:[AppDelegate App].personModel.tokenid contentGuid:self.productId delegate:self page:1 finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
         }
-        
         _myView.frame = CGRectMake(0, 0, self.viewCtl.view.frame.size.width, self.viewCtl.view.frame.size.height);
         _myView.alpha = 0.5;
         [self.viewCtl.view addSubview:_myView];

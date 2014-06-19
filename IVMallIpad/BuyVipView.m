@@ -326,6 +326,7 @@
             UIAlertView *alvIew = [[UIAlertView alloc] initWithTitle:nil message:@"购买成功！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             alvIew.tag = 500;
             [alvIew show];
+            [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_BuyVipSuccess object:nil];
             return;
         }else if(buyVip.result == 107){
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"余额不足" message:@"您的余额不足，现在去充值？" delegate:self cancelButtonTitle:@"稍后再充" otherButtonTitles:@"现在就去", nil];

@@ -25,6 +25,7 @@
 
 
 #define USERVIEW_WIDTH    (312)
+#define USERVIEW_HEIGHT    (121)
 @implementation UserView
 
 -(id)initMy{
@@ -59,7 +60,14 @@
 //        titleLabe.textAlignment=NSTextAlignmentCenter;
 //        titleLabe.backgroundColor=[UIColor clearColor];
 //        [_loginHeadView addSubview:titleLabe];
+        viewBG = [[UIView alloc]initWithFrame:CGRectMake(self.frame.size.width-5, 0, 3, self.frame.size.height)];
         
+        viewBG.layer.borderWidth = 10;
+        viewBG.layer.borderColor = [UIColor clearColor].CGColor;
+        viewBG.layer.shadowOffset = CGSizeMake(0, 0);
+        viewBG.layer.shadowRadius = 10;
+        viewBG.layer.shadowOpacity = 1;
+        viewBG.layer.shadowPath = [UIBezierPath bezierPathWithRect:viewBG.bounds].CGPath;
         
         _backButton=[UIButton buttonWithType:(UIButtonTypeCustom)];
         [_backButton setImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
@@ -73,11 +81,11 @@
         [self addSubview:_loginHeadView];
         _loginHeadView.hidden = YES;
         
-        _heatView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, USERVIEW_WIDTH, 111)];
+        _heatView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, USERVIEW_WIDTH, USERVIEW_HEIGHT)];
         _heatView.backgroundColor=[Commonality colorFromHexRGB:@"46b9de"];
         
         CAGradientLayer *newShadow = [[CAGradientLayer alloc] init];
-        CGRect newShadowFrame = CGRectMake(0, 0, USERVIEW_WIDTH, 111);
+        CGRect newShadowFrame = CGRectMake(0, 0, USERVIEW_WIDTH, USERVIEW_HEIGHT);
         newShadow.frame = newShadowFrame;
         
         newShadow.colors = [NSArray arrayWithObjects:(id)[[[Commonality colorFromHexRGB:@"46b9de"] colorWithAlphaComponent:0] CGColor],(id)[[[Commonality colorFromHexRGB:@"46b9de"] colorWithAlphaComponent:0.2] CGColor],(id)[[[Commonality colorFromHexRGB:@"1e9bc2"] colorWithAlphaComponent:0.4] CGColor],(id)[[[Commonality colorFromHexRGB:@"1e9bc2"] colorWithAlphaComponent:0.8] CGColor],nil];
@@ -111,7 +119,7 @@
         [_headBgImgView addSubview:_heatImgView];
         [_heatView addSubview:_headBgImgView];
         
-        _nameLabel=[[UILabel alloc]initWithFrame:CGRectMake(100, 20, 120, 30)];
+        _nameLabel=[[UILabel alloc]initWithFrame:CGRectMake(100, 30, 120, 30)];
         _nameLabel.backgroundColor=[UIColor clearColor];
         _nameLabel.font=[UIFont boldSystemFontOfSize:17];
         _nameLabel.textColor = [UIColor whiteColor];
@@ -127,7 +135,7 @@
         
         
         
-        _vipLabel=[[UILabel alloc]initWithFrame:CGRectMake(220, 20, 80 ,30)];
+        _vipLabel=[[UILabel alloc]initWithFrame:CGRectMake(220, 30, 80 ,30)];
         _vipLabel.backgroundColor=[UIColor clearColor];
         _vipLabel.font=[UIFont boldSystemFontOfSize:13];
         _vipLabel.text=@"会员";
@@ -136,7 +144,7 @@
         [_heatView addSubview:_vipLabel];
         
         _vipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _vipBtn.frame = CGRectMake(100, 50, 120, 22);
+        _vipBtn.frame = CGRectMake(100, 70, 120, 22);
         [_vipBtn setTitle:@"登录" forState:UIControlStateNormal];
         _vipBtn.titleLabel.font = [UIFont italicSystemFontOfSize:11];
         _vipBtn.backgroundColor = [Commonality colorFromHexRGB:@"f1c07b"];
@@ -167,7 +175,7 @@
     
         _infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //        _infoBtn.frame = CGRectMake(262, 14, 30, 30);
-        _infoBtn.frame = CGRectMake(282, 14, 30, 30);
+        _infoBtn.frame = CGRectMake(282, 0, 30, 30);
         [_infoBtn setImage:[UIImage imageNamed:@"编辑.png"] forState:UIControlStateNormal];
         [_heatView addSubview:_infoBtn];
         [_infoBtn addTarget:self action:@selector(showInfo) forControlEvents:UIControlEventTouchUpInside];
@@ -178,7 +186,7 @@
         [self configControl];
     }
     
-    [Commonality setImgViewStyle:self];
+//    [Commonality setImgViewStyle:viewBG];
     [self makeLogInView];
     selectedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 51)];
     selectedBackView.backgroundColor = color_18;
@@ -280,7 +288,6 @@
         _heatView.hidden = NO;
         _vipLabel.hidden = YES;
         _logOutButton.hidden = NO;
-        _vipLabel.frame = CGRectMake(220, 20, 80 ,30);
         if (![[AppDelegate App].personModel.nickname isEqualToString:@""]) {
             _nameLabel.text=[AppDelegate App].personModel.nickname;
         }else{
@@ -307,7 +314,7 @@
         
         _loginHeadView.hidden = YES;
         if (_myTableView==nil) {
-            _myTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 120, USERVIEW_WIDTH, 500)];
+            _myTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 130, USERVIEW_WIDTH, 500)];
             _myTableView.delegate=self;
             _myTableView.dataSource=self;
             _myTableView.backgroundColor=color_21;
@@ -316,7 +323,10 @@
             _myTableView.clearsContextBeforeDrawing = NO;
             [_myTableView registerNib:[UINib nibWithNibName:@"UserInfoView" bundle:nil] forCellReuseIdentifier:@"MainCell"];
             [self addSubview:_myTableView];
-            
+            if (viewBG) {
+                [viewBG removeFromSuperview];
+            }
+            [self addSubview:viewBG];
 //            首先我有一个UITableViewController，其中每个UITableViewCell点击后都会push另一个ViewController，每次点击Cell的时候，Cell都会被选中，当从push的ViewController返回的时候选中的Cell便会自动取消选中。后来由于某些原因我把这个UITableViewController改成了UIViewController，之后就产生了一个问题：每次返回到TableView的时候，之前选中的Cell不能自动取消选中，经过查找得知：
 //            UITableViewController有一个clearsSelectionOnViewWillAppear的property，
 //            而当把UITableViewController修改成UIViewController后，这个属性自然就不存在了，因此我们必须手动添加取消选中的功能，方法很简单，在viewWillAppear方法中加入：
@@ -368,8 +378,6 @@
             _registerButton.hidden = YES;
             _forGetButton.hidden = YES;
         }
-        _vipBtn.frame = CGRectMake(100, 50, 70, 22);
-        _vipLabel.frame = CGRectMake(150, 20, 80 ,30);
         [_vipBtn setTitle:@"登录" forState:UIControlStateNormal];
         NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
         _myCharge=[userDefaultes objectForKey:@"charge_Ivmall"];
@@ -385,7 +393,7 @@
         
         _loginHeadView.hidden = YES;
         if (_myTableView==nil) {
-            _myTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 120, USERVIEW_WIDTH, 500)];
+            _myTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 130, USERVIEW_WIDTH, 500)];
             _myTableView.delegate=self;
             _myTableView.dataSource=self;
             _myTableView.backgroundColor=color_21;
@@ -393,7 +401,10 @@
             _myTableView.bounces=NO;
             [_myTableView registerNib:[UINib nibWithNibName:@"UserInfoView" bundle:nil] forCellReuseIdentifier:@"MainCell"];
             [self addSubview:_myTableView];
-           
+            if (viewBG) {
+                [viewBG removeFromSuperview];
+            }
+            [self addSubview:viewBG];
         }else{
             _myTableView.hidden=NO;
 //            _logOutButton.hidden=NO;
@@ -617,6 +628,10 @@
     if (request.tag == LOGOUTURLNEW_TYPE) {
         return;
     }
+    if ([AppDelegate App].isLogin&&request.tag == USERINFOURL_TYPE) {
+        [AppDelegate App].isLogin = NO;
+        [self makeLogInView];
+    }
     [Commonality showErrorMsg:self type:0 msg:@"网络连接异常，请重试"];
 }
 
@@ -650,7 +665,7 @@
                 [userDefaults setObject:self.passWordTextField.text forKey:@"password2"];
                 [userDefaults synchronize];
                 
-                
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_LoginIn object:nil];
 //                NSString* string = [AppDelegate App].personModel.vipExpiryTime;
 //                NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init] ;
 //                [inputFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
@@ -709,7 +724,7 @@
                 NSTimeInterval interval = [inputDate timeIntervalSinceNow];
                 
                 if ([Commonality isEmpty:[AppDelegate App].personModel.vipExpiryTime] || interval < 0) {//非会员状态
-                    _vipBtn.frame = CGRectMake(100, 60, 80, 22);
+                    _vipBtn.frame = CGRectMake(100, 70, 80, 22);
                     [_vipBtn setTitle:@"开通会员" forState:UIControlStateNormal];
                     _vipLabel.userInteractionEnabled = YES;
                     _vipLabel.text = @"注册用户";
@@ -760,7 +775,7 @@
                 [self mackNoLongInView];
                 [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_LoginOut object:self userInfo:nil];
             }else{
-                [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:nil];
+//                [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:nil];
             }
             
          
@@ -801,7 +816,7 @@
             
             if ([Commonality isEmpty:[AppDelegate App].personModel.vipExpiryTime]|| interval < 0) {//非会员状态
                 
-                _vipBtn.frame = CGRectMake(100, 60, 80, 22);
+                _vipBtn.frame = CGRectMake(100, 70, 80, 22);
                 [_vipBtn setTitle:@"开通会员" forState:UIControlStateNormal];
                 _vipLabel.userInteractionEnabled = YES;
                 _vipLabel.text = @"注册用户";

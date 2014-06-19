@@ -175,7 +175,10 @@ static UIButton *selectBut;
         lingView.backgroundColor=color_18;
         [towBackView addSubview:lingView];
         
-        NSArray* langArray = [self.myCatcontent.langs componentsSeparatedByString:@","];
+        NSArray* langArray = [NSArray array];
+        if ([self.myCatcontent.langs length]) {
+            langArray = [self.myCatcontent.langs componentsSeparatedByString:@","];
+        }
         if ([langArray count] == 2) {
             UIButton*epBUtton1=[UIButton buttonWithType:(UIButtonTypeCustom)];
             [epBUtton1 setTitle:@"剧集列表（中文版）" forState:(UIControlStateNormal)];
@@ -1118,6 +1121,7 @@ static UIButton *selectBut;
                     [[IVMallPlayer sharedIVMallPlayer]IVMallPlayerStart:str withVideoName:self.tmpName fromViewController:[AppDelegate App].tabBarController startTime:_currentSelectedProgramTime];
                     _tabelView.userInteractionEnabled=YES;
                     backButton.userInteractionEnabled = YES;
+                    [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_Play object:self userInfo:nil];
                     return;
                 }
                 else//点击播放按钮和海报
@@ -1125,6 +1129,7 @@ static UIButton *selectBut;
                     [[IVMallPlayer sharedIVMallPlayer]IVMallPlayerStart:str withVideoName:self.tmpName fromViewController:[AppDelegate App].tabBarController startTime:_lastPlayTime];
                     _tabelView.userInteractionEnabled=YES;
                     backButton.userInteractionEnabled = YES;
+                    [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_Play object:self userInfo:nil];
                     return;
                 }
                 
@@ -1264,6 +1269,7 @@ static UIButton *selectBut;
 {
     [[IVMallPlayer sharedIVMallPlayer]IVMallPlayerStart:url withVideoName:self.tmpName fromViewController:[AppDelegate App].tabBarController startTime:0];
     _isPlayEndBack = NO;
+    [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_Play object:self userInfo:nil];
 }
 
 -(void)releaseTableView

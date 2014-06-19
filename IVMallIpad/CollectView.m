@@ -141,12 +141,12 @@
     [_tabelView addSubview:_nodataView];
     _nodataView.hidden = YES;
     
-    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(newRect.size.height/2 - 170, 0, 200, 200)];
+    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(newRect.size.height/2 - 150, 0, 200, 200)];
     imageView.backgroundColor = [UIColor clearColor];
     imageView.image = [UIImage imageNamed:@"收藏.png"];
     [_nodataView addSubview:imageView];
     
-    UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(-80, 220, _nodataView.frame.size.width, 30)];
+    UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(-55, 220, _nodataView.frame.size.width, 30)];
     lab.backgroundColor = [UIColor clearColor];
     lab.text = @"当前没有收藏视频";
     lab.textColor = [UIColor blackColor];
@@ -318,8 +318,9 @@
                 return;
             }
             
-            CHECK_NONERETURN(_tableArray.count > indexPath.row);
-            
+            if (indexPath.row > [_tableArray count]-1) {
+                return;
+            }
             FavoriteListModel* fm=[_tableArray objectAtIndex:indexPath.row];
             self.tmpName = fm.contentTitle;
             
@@ -335,7 +336,7 @@
                     [_gat dismiss];
                     _gat = nil;
                 }
-                _gat = [[GatherView alloc] initMy:self];             
+                _gat = [[GatherView alloc] initMy:nil];
                 
                 [AppDelegate App].selctImgCent=CGPointMake(cell.contentView.frame.origin.x+3, cell.contentView.frame.origin.y+120);
                 
@@ -735,7 +736,10 @@
     [_tabelView reloadData];
 }
 
-
+-(void)fresh
+{
+    [HttpRequest FavoriteRequest:[AppDelegate App].personModel.tokenid page:1 delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
+}
 
 -(void)show{
     

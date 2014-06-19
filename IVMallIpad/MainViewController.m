@@ -128,16 +128,15 @@ static UIView*sleckView;
     
     
     if ([Commonality isEnableWIFI]==1) {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"ChildrenProductView" owner:self options:nil];
             ChildrenProductView * view = [nib objectAtIndex:0];
             view.tag = i + 500;
             view.favouriteBtn.tag = i;
             view.backgroundColor = [UIColor clearColor];
             view.titleLab.textColor = color_2;
-            //        view.frame = CGRectMake( 5 + 26*(i + 1) + (rect.size.height-10 - 182)/6*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37, (rect.size.height-10 - 182)/6, 185);yuan
-            
-            view.frame = CGRectMake( 5 + 26*(i + 1) + (rect.size.height-10 - 182)/6*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37 + 30, 135, 222);
+           
+            view.frame = CGRectMake(48*(i + 1) + (rect.size.height-282)/5*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37 + 30, (rect.size.width-312)/5, rect.size.height/2-60 - 24);
             
             //        UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(5 + 1*(i + 1) + (rect.size.height-10 - 182)/6*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37 + 30, 162, 222)];
             //        imgView.image = [UIImage imageNamed:@"book_Selected.png"];
@@ -261,11 +260,12 @@ static UIView*sleckView;
             if ([ad.adAnchor isEqualToString:REGIST_AD_URL]) {
                 if (![AppDelegate App].isLogin) {
                     MainViewController * main = (MainViewController *)[[AppDelegate App].tabBarController.viewControllers objectAtIndex:0];
-                    [main clickUserButton:nil];
+                    [main gotoRegisterView];
                     return;
                 }
+            }else{
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ad.adAnchor]];
             }
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ad.adAnchor]];
             return;
         }
         
@@ -591,7 +591,7 @@ static UIView*sleckView;
     [adBackgroundView addSubview:adscrollerView];
     
     
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 5; i++) {
         UIView * view = [self.view viewWithTag:i + 500];
         if ([view isKindOfClass:[ChildrenProductView class]]) {
             [view setHidden:NO];
@@ -643,10 +643,25 @@ static UIView*sleckView;
 //    return wrap;
 //}
 
+-(void)gotoRegisterView
+{
+    PersonnalCenter * personView = [AppDelegate App].personView;
+    if (![AppDelegate App].isLogin) {
+        [personView showMyRegistView];
+    }
+    
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:personView];
+    nav.navigationBarHidden = YES;
+    [[AppDelegate App].tabBarController.navigationController pushViewController:personView animated:YES];
+    self.view.userInteractionEnabled = YES;
+}
 
 -(void)clickUserButton:(UIButton*)sender{
     PersonnalCenter * personView = [AppDelegate App].personView;
-    [personView showLoginView];
+    if (![AppDelegate App].isLogin) {
+        [personView showLoginView];
+    }
+    
     UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:personView];
     nav.navigationBarHidden = YES;
     [[AppDelegate App].tabBarController.navigationController pushViewController:personView animated:YES];

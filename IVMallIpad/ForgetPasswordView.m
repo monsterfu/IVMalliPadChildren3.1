@@ -67,7 +67,7 @@
     self.midLab.textColor = [UIColor whiteColor];
     self.hightLab.textColor = [UIColor whiteColor];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boxValueChanged) name:UITextFieldTextDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boxValueChanged) name:UITextFieldTextDidChangeNotification object:nil];
     
     _phoneTextField = [[JYTextField alloc]initWithFrame:CGRectMake(newRect.size.width/2 - 195, 0, 390, 51)
                                             cornerRadio:10
@@ -268,6 +268,10 @@
         return;
     }
     if ([Commonality determineCellPhoneNumber:_phoneTextField.text]==NO) {
+        [Commonality showErrorMsg:self type:0 msg:@"手机号码格式不正确!"];
+        return;
+    }
+    if ([Commonality isMobileNumber:_phoneTextField.text]==NO) {
         [Commonality showErrorMsg:self type:0 msg:@"手机号码格式不正确!"];
         return;
     }
@@ -488,20 +492,10 @@
             return;
         }
         if (request.tag==CHECKMOBILEURL_TYPE) {
-            if ([[dictionary objectForKey:@"errorCode"] isEqualToString:@"0"]) {
+            if ([[dictionary objectForKey:@"errorCode"] isEqualToString:@"102"]) {
                 [Commonality showErrorMsg:self type:0 msg:@"该手机号码未注册，请先注册"];
                 [_checkCodeBtn setEnabled:YES];
-            }
-            else{
-                
-//                [Commonality showErrorMsg:self type:0 msg:@"正在请求验证码中......"];
-                //                LPPopup *popup = [LPPopup popupWithText:@"This is a Letterpress like popup. UILabel subclass. Enjoy!"];
-                //
-                //                [popup showInView:self
-                //                    centerAtPoint:self.center
-                //                         duration:kLPPopupDefaultWaitDuration
-                //                       completion:nil];
-                
+            }else{
                 _httptype=5;
                 [HttpRequest CheckCodeRequest:_phoneTextField.text delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
             }
@@ -672,7 +666,7 @@
         }
         
     }else if(textField.tag==2002){
-        
+        [self boxValueChanged];
         if(range.location>19){
             [Commonality showErrorMsg:self type:0 msg:@"密码输入不能超过20位"];
             return NO;

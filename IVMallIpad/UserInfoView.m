@@ -264,7 +264,7 @@
             {
                 view.frame=CGRectMake(5, 3, tableView.frame.size.width-10, 50);
                 
-                if (_adressTextField == nil) {
+                if (1){//_adressTextField == nil) {
                     _adressTextField = [[UITextField alloc]initWithFrame:CGRectMake(140, 0, tableView.frame.size.width- 185, 53)];
                     _adressTextField.textAlignment = NSTextAlignmentRight;
                     _adressTextField.tag=1158;
@@ -564,15 +564,20 @@
 
 #pragma mark UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-
+    if (textField == _adressTextField){
+        [textField resignFirstResponder];
+        return YES;
+    }
     _tabelView.center = _tableViewPoint;
-    NSIndexPath * path = [NSIndexPath indexPathForRow:0 inSection:0];
-    [_tabelView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    [textField resignFirstResponder];
     return YES;
 }
 
-
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == _adressTextField){
+        _tabelView.center = _tableViewPoint;
+    }
+}
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     return YES;
@@ -650,12 +655,7 @@
 {
     
     if (textField == _adressTextField) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDelay:0.2];
-//        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 170 - 25, self.frame.size.width, self.frame.size.height);
-        NSIndexPath * path = [NSIndexPath indexPathForRow:8 inSection:0];
-        [_tabelView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        [UIView commitAnimations];
+        _tabelView.frame = CGRectMake(_tabelView.frame.origin.x, _tabelView.frame.origin.y - 50, _tabelView.frame.size.width, _tabelView.frame.size.height);
     }
 //    if (textField == _emalTextField) {
 //        [UIView beginAnimations:nil context:nil];

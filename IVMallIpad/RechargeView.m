@@ -210,7 +210,7 @@
         myTableView.scrollEnabled = NO;
         [alipayView addSubview:myTableView];
         
-        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 60, 50, 30)];
+        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 80, 50, 30)];
         lab.backgroundColor = [UIColor clearColor];
         lab.text = @"总价:";
         lab.alpha = alpha_4;
@@ -218,7 +218,7 @@
         lab.textColor = [UIColor blackColor];
         [alipayView addSubview:lab];
         
-        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 65, 180, 40)];
+        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 85, 180, 40)];
         pointLab.backgroundColor = [UIColor clearColor];
         pointLab.alpha = 1;
         pointLab.font = font_8;
@@ -226,7 +226,7 @@
         [alipayView addSubview:pointLab];
         
         UIButton * aliPayBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 30 - 130, alipayView.frame.size.height - 75, 130, 51);
+        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 45 - 130, alipayView.frame.size.height - 95, 130, 51);
 //        [aliPayBtn1 redStyle];
         aliPayBtn1.backgroundColor = color_4;
         [aliPayBtn1 childrenBtnStyleForBtn:aliPayBtn1];
@@ -392,7 +392,7 @@
         myTableView.scrollEnabled = NO;
         [alipayView addSubview:myTableView];
         
-        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 60, 50, 30)];
+        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 80, 50, 30)];
         lab.backgroundColor = [UIColor clearColor];
         lab.text = @"总价:";
         lab.alpha = alpha_4;
@@ -400,7 +400,7 @@
         lab.textColor = [UIColor blackColor];
         [alipayView addSubview:lab];
         
-        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 65, 180, 40)];
+        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 85, 180, 40)];
         pointLab.backgroundColor = [UIColor clearColor];
         pointLab.alpha = 1;
         pointLab.font = font_8;
@@ -408,7 +408,7 @@
         [alipayView addSubview:pointLab];
         
         UIButton * aliPayBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 30 - 130, alipayView.frame.size.height - 75, 130, 51);
+        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 45 - 130, alipayView.frame.size.height - 95, 130, 51);
 //        [aliPayBtn1 redStyle];
         aliPayBtn1.backgroundColor = color_4;
         [aliPayBtn1 childrenBtnStyleForBtn:aliPayBtn1];
@@ -427,14 +427,21 @@
 
 -(void)aliPay
 {
-    AppPointModel * pointModel = [pointsModel.list objectAtIndex:lastCLickBtn.tag - 2000];
+    if (customPriceField.isEditing) {
+        [customPriceField resignFirstResponder];
+    }
+    AppPointModel * pointModel;
+    if (lastCLickBtn) {
+        pointModel = [pointsModel.list objectAtIndex:lastCLickBtn.tag - 2000];
+    }else{
+        pointModel = [pointsModel.list objectAtIndex:3];
+    }
+    
     if (pointModel.price) {
         [HttpRequest AlipayPrepareSecurePayRequestToken:[AppDelegate App].personModel.tokenid price:pointModel.price delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
     }else{
         [Commonality showErrorMsg:self type:0 msg:@"请输入有效金额"];
     }
-    
-    
 }
 
 //支付宝
@@ -608,9 +615,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"myCell"];
     }
     
-    [lastCLickBtn setBackgroundImage:nil forState:UIControlStateNormal];
-    lastCLickBtn.layer.borderWidth = 1;
-    lastCLickBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
     for (int i = 0; i < 3; i++) {
         if (pointsModel.list.count > indexPath.row * 3 + i + 1) {
 //            UIButton * btn1 = (UIButton *)[cell viewWithTag:indexPath.row * 3 + i + 2000];
@@ -651,27 +655,23 @@
             customPriceButton = (UIButton *)[view1 viewWithTag:indexPath.row * 3 + i + 2000];
             AppPointModel * pointModel = [pointsModel.list objectAtIndex:indexPath.row * 3 + i];
             if (view1 == nil) {
-                customPriceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                customPriceButton.frame = CGRectMake(30 + (140 + 20) * i, 0, 140, 51);
-                customPriceButton.backgroundColor = color_14;
-                customPriceButton.tag = indexPath.row * 3 + i + 2000;
-                customPriceButton.layer.borderWidth = 1;
-                customPriceButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
-                [customPriceButton addTarget:self action:@selector(customPriceFieldBecomeEdit) forControlEvents:UIControlEventTouchUpInside];
-                [customPriceButton childrenBtnStyleForBtn:customPriceButton];
-                customPriceField = [[UITextField alloc]initWithFrame:CGRectMake(customPriceButton.frame.origin.x+5, customPriceButton.frame.origin.y+5, customPriceButton.frame.size.width-10, customPriceButton.frame.size.height-10)];
+                customPriceField = [[JYTextField alloc]initWithFrame:CGRectMake(30, 0, 458, 51)
+                                                                  cornerRadio:6
+                                                                  borderColor:[Commonality colorFromHexRGB:@"c3c3c3"]
+                                                                  borderWidth:0.5
+                                                                   lightColor:nil
+                                                                    lightSize:0
+                                                             lightBorderColor:nil];
+                customPriceField.backgroundColor = [Commonality colorFromHexRGB:@"f0f0f0"];
                 customPriceField.placeholder = @"其他金额";
-                customPriceField.textColor = [UIColor whiteColor];
+                customPriceField.textColor = [UIColor blackColor];
                 customPriceField.delegate = self;
                 customPriceField.clearsOnBeginEditing = YES;
-                customPriceField.backgroundColor = [UIColor clearColor];
                 customPriceField.keyboardType = UIKeyboardTypeNumberPad;
                 customPriceField.returnKeyType = UIReturnKeyDone;
-                [customPriceButton addSubview:customPriceField];
-                
-                view1 = [Commonality makeButtonShadowViewWhitbtn:customPriceButton];
-                view1.tag = indexPath.row * 3 + i + 2000 + 5000;
-                [cell addSubview:view1];
+                customPriceField.tag = 900;
+                customPriceField.delegate = self;
+                [cell addSubview:customPriceField];
             }
         }
     }
@@ -714,8 +714,7 @@
     
     paySucceedBagegroundView.hidden = YES;
     
-    [lastCLickBtn setBackgroundImage:nil forState:UIControlStateNormal];
-    lastCLickBtn.layer.borderWidth = 0;
+//    [lastCLickBtn setBackgroundImage:nil forState:UIControlStateNormal];
     JYTextField * nubFied = (JYTextField*)[self viewWithTag:600];
     nubFied.text = nil;
     dismissBtn.hidden = NO;
@@ -885,6 +884,12 @@
                 }
                 JYTextField * filed =(JYTextField *) [self viewWithTag:600];
                 filed.text = nil;
+                
+                AppPointModel * pointModel = [pointsModel.list objectAtIndex:3];
+                pointModel.points = 0;
+                pointModel.price = 0;
+                pointLab.text = [NSString stringWithFormat:@"%0.2f元",pointModel.price];
+                customPriceField.text = nil;
                 return;
                 paySucceedView.hidden = NO;
                 alipayView.hidden = YES;
@@ -985,9 +990,6 @@
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    if (textField == customPriceField) {
-        return YES;
-    }
     if (_isFromMainShowingExt) {
         return YES;
     }
@@ -1001,6 +1003,9 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     if (textField == customPriceField) {
+        if (!_isFromMainShowingExt) {
+            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 80, 552, 354);
+        }
         return YES;
     }
     if (_isFromMainShowingExt) {
@@ -1015,13 +1020,16 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (textField == customPriceField) {
-        [self choosePayPoint:customPriceButton];
+        lastCLickBtn.backgroundColor = color_14;
+        [lastCLickBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        lastCLickBtn = nil;
+        pointLab.text = [NSString stringWithFormat:@"%0.2f元",0.0f];
     }
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField == customPriceField) {
-        AppPointModel * pointModel = [pointsModel.list objectAtIndex:customPriceButton.tag - 2000];
+        AppPointModel * pointModel = [pointsModel.list objectAtIndex:3];
         pointModel.points = [textField.text doubleValue];
         pointModel.price = [textField.text doubleValue];
         pointLab.text = [NSString stringWithFormat:@"%0.2f元",pointModel.price];
@@ -1034,13 +1042,12 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == customPriceField) {
-        [self endEditing:YES];
         
+        [self endEditing:YES];
+    }
+    if (_isFromMainShowingExt) {
         return YES;
     }
-//    if (_isFromMainShowing == NO) {
-//        return YES;
-//    }
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 80, 552, 354);
     return YES;
 }
@@ -1075,6 +1082,8 @@
         }
         
         // Add any predicate testing here
+        
+        pointLab.text = [NSString stringWithFormat:@"%0.2f元",[[textField.text stringByAppendingString:string] floatValue]];
         return basicTest;
 
     }

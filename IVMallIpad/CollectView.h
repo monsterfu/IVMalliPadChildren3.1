@@ -52,7 +52,7 @@
 -(void)reloadContentView;
 -(id) initMyWithFrame:(CGRect )newRect;
 -(void) show;
-
+-(void) fresh;
 -(void) dismiss;
 
 -(void) GetErr:(ASIHTTPRequest *)request;

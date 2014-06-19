@@ -42,6 +42,6 @@
 @property(nonatomic,strong)GatherView * gather;
 -(void)markHomeRequest;
 -(void)clickUserButton:(UIButton*)sender;
-
+-(void)gotoRegisterView;
     
 @end

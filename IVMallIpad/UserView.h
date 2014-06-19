@@ -21,6 +21,8 @@
     CGRect tmpRect;
     BOOL isFromHistory;
     UIView * selectedBackView;
+    
+    UIView* viewBG;
 }
 
 @property(nonatomic,strong)UIView*myView;

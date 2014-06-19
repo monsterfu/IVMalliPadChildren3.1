@@ -555,7 +555,6 @@
                 [user setObject:dic forKey:@"children_cache"];
                 [user synchronize];
             }
-        
         }
         
         int i=0;

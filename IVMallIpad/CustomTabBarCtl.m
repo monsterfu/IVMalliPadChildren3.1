@@ -18,6 +18,9 @@
 
 static UIButton*slectButton;
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
+
+#define FUCKWIDTH   (90)
+
 @implementation CustomTabBarCtl
 
 -(id) initWithCtl:(NSMutableArray *)viewCtlArr andTitleStr:(NSMutableArray *)titleArr andImgDic:(NSMutableDictionary *)imgDic
@@ -147,7 +150,7 @@ static UIButton*slectButton;
         _tabBar.backgroundColor = color_2;
         _tabBar.layer.cornerRadius = 20;
         
-        _tabBarScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, _customContentView.frame.size.width - 400 , 40)];
+        _tabBarScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, _customContentView.frame.size.width - 400 , 41)];
         _tabBarScroll.contentSize = CGSizeMake(110 * _titleArr.count, 40);
         _tabBarScroll.showsHorizontalScrollIndicator = NO;
         _tabBarScroll.showsVerticalScrollIndicator = NO;
@@ -164,7 +167,7 @@ static UIButton*slectButton;
         }
         UIButton * b = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        [b setFrame:CGRectMake(110*i, 0, 110, 40)];
+        [b setFrame:CGRectMake(FUCKWIDTH*i, 0, FUCKWIDTH, 40)];
         b.tag = 100 + i;
         [b addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [b setTitle:[_titleArr objectAtIndex:i] forState:UIControlStateNormal];
@@ -180,8 +183,8 @@ static UIButton*slectButton;
         [_animationView removeFromSuperview];
         _animationView = nil;
     }
-    _animationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.5, 110, 39)];
-    _animationView.backgroundColor = color_3;
+    _animationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.5, FUCKWIDTH, 40)];
+    _animationView.backgroundColor = color_23;
     _animationView.alpha = 1.0;
     _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, _animationView.frame.size.width, _animationView.frame.size.height)];
     _titleLabel.backgroundColor = [UIColor clearColor];
@@ -190,7 +193,7 @@ static UIButton*slectButton;
     _titleLabel.text = @"推荐";
     _titleLabel.font = font_5;
     [_animationView addSubview:_titleLabel];
-    [Commonality setImgViewStyle:_animationView];
+//    [Commonality setImgViewStyle:_animationView];
     UIButton*button=(UIButton*)[_tabBar viewWithTag:100];
     slectButton=button;
     
@@ -230,7 +233,7 @@ static UIButton*slectButton;
 //    [_animationView setFrame:CGRectMake(b.frame.origin.x + 5, _animationView.frame.origin.y , 90, 36)];
 //    _titleLabel.text = [_titleArr objectAtIndex:b.tag - 100];
 //    [UIView commitAnimations];
-    [_animationView setFrame:CGRectMake(b.frame.origin.x, 0.5, 110, 39)];
+    [_animationView setFrame:CGRectMake(b.frame.origin.x, 0.5, FUCKWIDTH, 40)];
     _titleLabel.text = [_titleArr objectAtIndex:b.tag - 100];
     UIViewController * ctl = [_viewControllers objectAtIndex:b.tag-100];
     CGRect rect = _customContentView.frame;
