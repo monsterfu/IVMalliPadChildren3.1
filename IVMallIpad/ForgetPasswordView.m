@@ -271,10 +271,6 @@
         [Commonality showErrorMsg:self type:0 msg:@"手机号码格式不正确!"];
         return;
     }
-    if ([Commonality isMobileNumber:_phoneTextField.text]==NO) {
-        [Commonality showErrorMsg:self type:0 msg:@"手机号码格式不正确!"];
-        return;
-    }
     self.httptype=2;
     [_checkCodeBtn setEnabled:NO];
     ASIHTTPRequest* asiRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:CHECKMOBILEURL]];
@@ -402,7 +398,7 @@
 //        [Commonality showErrorMsg:self type:0 msg:@"正在找回密码......"];
         NSMutableString*str=[NSMutableString stringWithString:_passWordField.text];
         
-        NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str],[[NSUserDefaults standardUserDefaults] stringForKey:@"mobile"]];
+        NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str],_phoneTextField.text];
         
         self.md5PassWord= [Commonality MD5:passWordText];
         
@@ -414,20 +410,17 @@
     {
 //        [Commonality showErrorMsg:self type:0 msg:@"正在修改密码......"];
         
-        
         NSMutableString*str=[NSMutableString stringWithString:_verifyPassWordField.text];
         
-        NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str],[[NSUserDefaults standardUserDefaults] stringForKey:@"mobile"]];
+        NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str],_phoneTextField.text];
         
-        self.md5PassWord= [[Commonality MD5:passWordText]lowercaseString];
+        self.md5PassWord= [Commonality MD5:passWordText];
         
-//        self.md5PassWord= [Commonality MD5:str];
         NSMutableString*str2=[NSMutableString stringWithString:_phoneTextField.text];
         
-        passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str2],[[NSUserDefaults standardUserDefaults] stringForKey:@"mobile"]];
+        passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str2],_phoneTextField.text];
         
         NSString*old=[Commonality MD5:passWordText];
-        //        self.password=_verifyPassWordField.text;
         
         [HttpRequest amendUserRequest:[AppDelegate App].personModel.tokenid newPassword:self.md5PassWord wornPassword:old delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
     }
@@ -447,6 +440,7 @@
 //                         _hihel=NO;
                          [self removeFromSuperview];
                          [_myView removeFromSuperview];
+                         [[AppDelegate App].personView makeLoginView];
                          [[AppDelegate App].personView showLoginView];
                      }];
 }
@@ -666,7 +660,7 @@
         }
         
     }else if(textField.tag==2002){
-        [self boxValueChanged];
+        [self boxValueChanged:string];
         if(range.location>19){
             [Commonality showErrorMsg:self type:0 msg:@"密码输入不能超过20位"];
             return NO;
@@ -705,12 +699,17 @@
     return YES;
 }
 
--(void)boxValueChanged
+-(void)boxValueChanged:(NSString*)str
 {
     if (_isPasswordFiledEdting) {
-        
+        NSString* finalStr;
         UITextField * textField = (UITextField *)[self viewWithTag:2002];
-        int ret=[Commonality judgePasswordStrength:textField.text];
+        if (str.length == 0) {
+            finalStr = [textField.text substringToIndex:textField.text.length -1];
+        }else{
+            finalStr = [textField.text stringByAppendingString:str];
+        }
+        int ret=[Commonality judgePasswordStrength:finalStr];
         
         switch (ret) {
             case 0:
@@ -731,7 +730,7 @@
             default:
                 break;
         }
-        if (textField.text.length == 0) {
+        if (finalStr.length == 0) {
             self.lowLab.backgroundColor=[Commonality colorFromHexRGB:INDICATOR_COLOR];
             self.midLab.backgroundColor=[Commonality colorFromHexRGB:INDICATOR_COLOR];
             self.hightLab.backgroundColor=[Commonality colorFromHexRGB:INDICATOR_COLOR];
@@ -769,6 +768,7 @@
         [_checkCodeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_checkCodeBtn setEnabled:NO];
         [_checkCodeBtn setTitle:title forState:UIControlStateNormal];
+        [_checkCodeBtn setTitle:title forState:UIControlStateDisabled];
         _checkCodeBtn.titleLabel.textColor = [Commonality colorFromHexRGB: @"656565"];
         _checkCodeBtn.titleLabel.shadowColor = [Commonality colorFromHexRGB:@"acacac"];
         _checkCodeBtn.titleLabel.shadowOffset = CGSizeMake(0.5,0.5);

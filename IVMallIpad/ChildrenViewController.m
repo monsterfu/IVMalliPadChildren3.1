@@ -138,6 +138,17 @@
     now.hidden=YES;
     _isWifiResume = NO;
   
+    
+    lodingBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
+    [lodingBgView setBackgroundColor:[UIColor clearColor]];
+    UIActivityIndicatorView* activeIndicatorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectZero];
+    activeIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    [activeIndicatorView startAnimating];
+    activeIndicatorView.center = lodingBgView.center;
+    [lodingBgView addSubview:activeIndicatorView];
+    [self.view addSubview:lodingBgView];
+    
+    
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_CollectChanged object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_LoginOut object:nil];
 }
@@ -182,6 +193,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults*user=[NSUserDefaults standardUserDefaults];
+    NSDictionary*dic=[user objectForKey:[NSString stringWithFormat:@"category_cache_%@",_tmpCategoryId]];
     self.view.userInteractionEnabled = YES;
     if (_showSate == YES) {
         _showSate=NO;
@@ -192,13 +206,18 @@
 //    }
     _pageCont.currentPage=0;
     _index=0;
-    NSUserDefaults*user=[NSUserDefaults standardUserDefaults];
-    cacheDic=[user objectForKey:@"children_cache"];
-    if ([Commonality isEnableWIFI]==0&&cacheDic==nil) {
+    if ([Commonality isEnableWIFI]==0&&dic==nil) {
         now.hidden=NO;
         return;
+    }else if([Commonality isEnableWIFI]==0&&dic!=nil){
+        isLoadNextPage = NO;
+        [self passCatDic:dic count:0];
+        [lodingBgView setHidden:YES];
+        now.hidden=YES;
+        return;
+    }else{
     }
-    NSDictionary*dic=[user objectForKey:@"children_heat_cache"];
+    dic=[user objectForKey:@"children_heat_cache"];
     if (dic!=nil) {
         [self passGory:dic];
     }
@@ -277,6 +296,7 @@
 }
 
 -(void)clickClassButton:(int)sender{
+    
     _index=0;
     _pageCont.currentPage=0;
     if (![[AppDelegate App].cateArray count]) {
@@ -295,8 +315,19 @@
         _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:CATALLLIST]];
     }
 
-    [HttpRequest VideoAllRequest2:[AppDelegate App].personModel.tokenid channelCode:@"children" index:_index offset:MAXITEMNUM categoryId:_tmpCategoryId request:_request delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
-
+    NSUserDefaults*user=[NSUserDefaults standardUserDefaults];
+    NSDictionary*dic=[user objectForKey:[NSString stringWithFormat:@"category_cache_%@",_tmpCategoryId]];
+    if ([Commonality isEnableWIFI]==0&&dic==nil) {
+        [HttpRequest VideoAllRequest2:[AppDelegate App].personModel.tokenid channelCode:@"children" index:_index offset:MAXITEMNUM categoryId:_tmpCategoryId request:_request delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
+    }else if([Commonality isEnableWIFI]==0&&dic!=nil){
+        isLoadNextPage = NO;
+        [self passCatDic:dic count:0];
+        [lodingBgView setHidden:YES];
+        now.hidden=YES;
+    }else{
+        [HttpRequest VideoAllRequest2:[AppDelegate App].personModel.tokenid channelCode:@"children" index:_index offset:MAXITEMNUM categoryId:_tmpCategoryId request:_request delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
+        [lodingBgView setHidden:NO];
+    }
 }
 
 -(void)makeRecommEndView:(int)count arr:(NSMutableArray*)arr{
@@ -398,6 +429,11 @@
     }
     if (_isShowingAlartView == NO) {
         if ([Commonality isEnableWIFI]) {
+            NSUserDefaults*user=[NSUserDefaults standardUserDefaults];
+            NSDictionary*dic=[user objectForKey:[NSString stringWithFormat:@"category_cache_%@",_tmpCategoryId]];
+            [self passCatDic:dic count:0];
+            [lodingBgView setHidden:YES];
+            now.hidden=YES;
             return;
         }
         UIAlertView *alvIew = [[UIAlertView alloc] initWithTitle:nil message:@"网络连接异常，请重试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -413,6 +449,7 @@
     NSLog(@"%@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
     NSError *error;
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+    [lodingBgView setHidden:YES];
     if (dictionary==nil) {
         [Commonality showErrorMsg:self.view type:0 msg:@"网络连接异常，请重试"];
         
@@ -458,6 +495,11 @@
                 isLoadNextPage = YES;
                 [self passCatDic:dictionary count:request.tag];
 //            }
+            if (request.tag == 0) {
+                NSUserDefaults*user=[NSUserDefaults standardUserDefaults];
+                [user setObject:dictionary forKey:[NSString stringWithFormat:@"category_cache_%@",_tmpCategoryId]];
+                [user synchronize];
+            }
             
         }
         

@@ -1082,7 +1082,10 @@
         }
         
         // Add any predicate testing here
-        
+        if(range.location>3){
+//            [Commonality showErrorMsg:self type:0 msg:@"别充这么多钱，好吗？"];
+            return NO;
+        }
         pointLab.text = [NSString stringWithFormat:@"%0.2f元",[[textField.text stringByAppendingString:string] floatValue]];
         return basicTest;
 

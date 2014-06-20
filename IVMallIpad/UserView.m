@@ -618,7 +618,7 @@
 //    NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",self.passWordTextField.text,self.phoneTextField.text];
     NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:self.passWordTextField.text],self.phoneTextField.text];
     
-    self.md5PassWord= [[Commonality MD5:passWordText]lowercaseString]; //[Commonality MD5:[Commonality MD5:passWordText]];
+    self.md5PassWord= [Commonality MD5:passWordText]; //[Commonality MD5:[Commonality MD5:passWordText]];
     
     [HttpRequest LoginRequest:self.phoneTextField.text password:self.md5PassWord delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
     

@@ -89,11 +89,9 @@
 }
 
 - (IBAction)clickFavouriteBtn:(UIButton *)sender {
-    sender.userInteractionEnabled = NO;
     if (![AppDelegate App].isLogin) {
         MainViewController * main = (MainViewController *)[[AppDelegate App].tabBarController.viewControllers objectAtIndex:0];
         [main clickUserButton:nil];
-        sender.userInteractionEnabled = YES;
         return;
     }
     if (_isCollect == NO) {

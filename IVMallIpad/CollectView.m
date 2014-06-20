@@ -512,6 +512,7 @@
             NoDataModel * model = [[NoDataModel alloc] initWithDictionary:dictionary];
             if (model.result == 0) {
 //               [Commonality showErrorMsg:self type:0 msg:@"取消收藏成功!"];
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:nil];
                 for (int i = 0; i < _tableArray.count; i++) {
                     FavoriteListModel * fm = [_tableArray objectAtIndex:i];
                     if (fm.isSelect) {
@@ -569,7 +570,7 @@
 //                MainViewController * mainViewCtl = [[AppDelegate App].tabBarController.viewControllers objectAtIndex:0];
 //                [mainViewCtl markHomeRequest];
                 [self reloadContentView];
-                
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:nil];
             }
             else
             {

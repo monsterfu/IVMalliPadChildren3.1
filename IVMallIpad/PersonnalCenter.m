@@ -246,7 +246,7 @@
 
 -(void)showMyForgetPasswordView
 {
-//    [AppDelegate App].personModel.mobile = _myPhoneTextField.text;
+    [AppDelegate App].personModel.mobile = _myPhoneTextField.text;
     if (_forgetPasswordView != nil) {
         [_forgetPasswordView removeFromSuperview];
     }
@@ -286,9 +286,10 @@
 -(void)showMyRegistView
 {
     [_loginView removeFromSuperview];
-    if (_registView == nil) {
-        _registView = [[RegistView alloc] initMyWithFrame:_rightView.bounds];
+    if (_registView != nil) {
+        [_registView removeFromSuperview];
     }
+    _registView = [[RegistView alloc] initMyWithFrame:_rightView.bounds];
     _registView.delegate = self;
     [_registView show];
     [_rightView addSubview:_registView];
@@ -310,9 +311,10 @@
 
 -(void)showDefaultView
 {
-    if (_playHiestoryView == nil) {
-        _playHiestoryView = [[PlayHistoryView alloc] initMyWithFrame:_rightView.bounds];
+    if (_playHiestoryView != nil) {
+        [_playHiestoryView removeFromSuperview];
     }
+    _playHiestoryView = [[PlayHistoryView alloc] initMyWithFrame:_rightView.bounds];
     [_playHiestoryView show];
     [_rightView addSubview:_playHiestoryView];
 }

@@ -13,7 +13,7 @@
 #define FAIILURE @"当前网络不可用，请检查网络！"
 #define LINGKERROR @"网络连接异常，请重试!"
 #define NOWIFIERROR @"当前网络异常,请先退出应用配置网络"
-#define IVMALL_VERSION @"3.1.3"
+#define IVMALL_VERSION @"3.1.4"
 #define ALOPH 0.6
 #define PROMOTER @"20000"
 

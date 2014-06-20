@@ -289,13 +289,13 @@
     }else{
         if (request.tag==ADDFAVORITE_TYPE){
             if ([[dictionary objectForKey:@"errorCode"]intValue]==0) {
-                
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:nil];
             }else{
                  [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];
             }
         }else if (request.tag==CANFAVORITE_TYPE){
             if ([[dictionary objectForKey:@"errorCode"]intValue]==0) {
-                
+                [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:nil];
             }else{
                
                 [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];

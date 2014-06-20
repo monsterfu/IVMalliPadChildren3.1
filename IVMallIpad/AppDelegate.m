@@ -254,15 +254,15 @@
 }
 
 -(void) GetErr:(ASIHTTPRequest *)request{
-//    if (request.tag == CONFIG_TYPE) {
-//        
-//        if (!_alertView) {
-//            _alertView = [[UIAlertView alloc] initWithTitle:nil message:@"当前网络异常，请先退出应用配置网络" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//            _alertView.delegate = self;
-//            [_alertView show];
-//            return;
-//        }
-//    }
+    if (request.tag == CONFIG_TYPE) {
+        
+        if (!_alertView) {
+            _alertView = [[UIAlertView alloc] initWithTitle:nil message:@"当前网络异常，请先退出应用配置网络" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            _alertView.delegate = self;
+            [_alertView show];
+            return;
+        }
+    }
 }
 
 -(void) GetResult:(ASIHTTPRequest *)request{

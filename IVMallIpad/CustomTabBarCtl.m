@@ -151,7 +151,7 @@ static UIButton*slectButton;
         _tabBar.layer.cornerRadius = 20;
         
         _tabBarScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, _customContentView.frame.size.width - 400 , 41)];
-        _tabBarScroll.contentSize = CGSizeMake(110 * _titleArr.count, 40);
+        _tabBarScroll.contentSize = CGSizeMake(FUCKWIDTH * _titleArr.count, 40);
         _tabBarScroll.showsHorizontalScrollIndicator = NO;
         _tabBarScroll.showsVerticalScrollIndicator = NO;
         _tabBarScroll.layer.cornerRadius = 20;

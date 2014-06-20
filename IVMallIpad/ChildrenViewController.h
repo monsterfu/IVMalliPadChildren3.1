@@ -29,6 +29,7 @@
     BOOL isLoadNextPage;
     int lastPage;
     BOOL isPlayBack;
+    UIView* lodingBgView;
 }
 
 @property(nonatomic,assign)int index;

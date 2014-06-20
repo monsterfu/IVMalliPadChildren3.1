@@ -136,7 +136,7 @@ static UIView*sleckView;
             view.backgroundColor = [UIColor clearColor];
             view.titleLab.textColor = color_2;
            
-            view.frame = CGRectMake(48*(i + 1) + (rect.size.height-282)/5*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37 + 30, (rect.size.width-312)/5, rect.size.height/2-60 - 24);
+            view.frame = CGRectMake(48*(i + 1) + (rect.size.height-282)/5*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37 + 30, (rect.size.height-312)/5, rect.size.width/2-60 - 24);
             
             //        UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(5 + 1*(i + 1) + (rect.size.height-10 - 182)/6*i, tapView.frame.size.height + tapView.frame.origin.y + 35 + 282.5 + 37 + 30, 162, 222)];
             //        imgView.image = [UIImage imageNamed:@"book_Selected.png"];
@@ -183,6 +183,7 @@ static UIView*sleckView;
     activit=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activit.frame=CGRectMake(self.view.frame.size.height/2-50, self.view.frame.size.width/2-50, 100, 100);
     [self.view addSubview:activit];
+    [activit startAnimating];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_CollectChanged object:nil];
 }
 

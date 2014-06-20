@@ -108,7 +108,6 @@
 
 -(void)checkVerson:(UIButton * )btn;
 {
-    btn.enabled = NO;
     if ([Commonality isEnableWIFI]==0) {
         [Commonality showErrorMsg:self type:0 msg:FAIILURE];
         return;
@@ -118,8 +117,8 @@
     ASIHTTPRequest* asiRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:APP_URL]];
     asiRequest.tag=CHECKVERSION_TYPE;
     [asiRequest setRequestMethod:@"GET"];
-//    [asiRequest setUseSessionPersistence:YES];
-//    [asiRequest setUseCookiePersistence:YES];
+    [asiRequest setUseSessionPersistence:NO];
+    [asiRequest setUseCookiePersistence:NO];
     [asiRequest setDefaultResponseEncoding:NSUTF8StringEncoding];
     [asiRequest setDelegate:self];
     [asiRequest setDidFinishSelector:@selector(GetResult:)];
@@ -170,7 +169,7 @@
     UIButton * btn = (UIButton *)[self viewWithTag:503];
     [btn setEnabled:YES];
 //    [loading stopAnimating];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:LINGKERROR delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"获取更新状态失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     alert.tag = 10002;
     [alert show];
 }

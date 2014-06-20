@@ -272,11 +272,6 @@
         [Commonality showErrorMsg:self type:0 msg:@"请输入正确的手机格式!"];
         return;
     }
-    
-    if ([Commonality isMobileNumber:_phoneTextField.text]==NO) {
-        [Commonality showErrorMsg:self type:0 msg:@"请输入正确的手机格式!"];
-        return;
-    }
     _checkCodeBtn.enabled = NO;
     ASIHTTPRequest* asiRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:CHECKMOBILEURL]];
     NSString*str=[NSString stringWithFormat:@"{\"mobile\":\"%@\"}",_phoneTextField.text];
@@ -535,7 +530,7 @@
             return YES;
         }
     }else if(textField.tag==2002){
-        [self boxValueChanged];
+        [self boxValueChanged:string];
         if(range.location>19){
             [Commonality showErrorMsg:self type:0 msg:@"密码输入不能超过20位"];
             return NO;
@@ -574,12 +569,17 @@
     return YES;
 }
 
--(void)boxValueChanged
+-(void)boxValueChanged:(NSString*)str
 {
     if (_isPasswordFiledEdting) {
-        
+        NSString* finalStr;
         UITextField * textField = (UITextField *)[self viewWithTag:2002];
-        int ret=[Commonality judgePasswordStrength:textField.text];
+        if (str.length == 0) {
+            finalStr = [textField.text substringToIndex:textField.text.length -1];
+        }else{
+            finalStr = [textField.text stringByAppendingString:str];
+        }
+        int ret=[Commonality judgePasswordStrength:finalStr];
         
         switch (ret) {
             case 0:
@@ -600,7 +600,7 @@
             default:
                 break;
         }
-        if (textField.text.length == 0) {
+        if (finalStr.length == 0) {
             self.lowLab.backgroundColor=[Commonality colorFromHexRGB:INDICATOR_COLOR];
             self.midLab.backgroundColor=[Commonality colorFromHexRGB:INDICATOR_COLOR];
             self.hightLab.backgroundColor=[Commonality colorFromHexRGB:INDICATOR_COLOR];

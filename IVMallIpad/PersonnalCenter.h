@@ -57,6 +57,7 @@
 -(void)showUserInfoView;
 -(void)showProgramView;
 -(void)showLoginView;
+-(void)makeLoginView;
 
 -(void)buyVipViewWillShowWithTitle:(NSString *)title andPoints:(NSString *)points andVipID:(NSString *)vipID;
 -(void)buyVipViewWillDismiss;

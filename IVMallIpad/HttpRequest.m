@@ -24,7 +24,7 @@
     [asiRequest setUseCookiePersistence:YES];
     [asiRequest setDefaultResponseEncoding:NSUTF8StringEncoding];
     [asiRequest setDelegate:delegate];
-    
+    [asiRequest setTimeOutSeconds:1];
     [asiRequest setDidFinishSelector:finishSel];
     [asiRequest setDidFailSelector:failSel];
     
