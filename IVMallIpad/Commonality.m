@@ -309,9 +309,9 @@
 + (void)showErrorMsg:(UIView*)view type:(int)type msg:(NSString *)msg{
     switch (type) {
         case 999://	未知错误
-            [view makeToast:@"出了些小问题，请联系我们客服！"
-                   duration:2.0
-                   position:@"center"];
+//            [view makeToast:@"出了些小问题，请联系我们客服！"
+//                   duration:2.0
+//                   position:@"center"];
             break;
         case 400://	缺少参数
             [view makeToast:@"缺少参数，请检查参数是否填写完全！"

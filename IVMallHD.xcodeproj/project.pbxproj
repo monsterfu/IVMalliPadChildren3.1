@@ -1926,7 +1926,7 @@
 					"$(SRCROOT)/IVMall(Ipad)/iPadPlayerLib",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/IVMallIpad/IVMallHD-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/IVMallIpad/",
@@ -1960,7 +1960,7 @@
 					"$(SRCROOT)/IVMall(Ipad)/iPadPlayerLib",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/IVMallIpad/IVMallHD-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/IVMallIpad/",

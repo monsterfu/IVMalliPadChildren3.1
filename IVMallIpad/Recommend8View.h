@@ -15,6 +15,8 @@
     
     GatherView*gatherView;
     
+    BOOL isLive;
+    UIButton* collectButton;
 }
 
 @property(nonatomic,assign)id<PopupGatherViewDelegate>delegate;

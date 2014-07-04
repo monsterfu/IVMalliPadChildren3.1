@@ -412,13 +412,13 @@
         
         NSMutableString*str=[NSMutableString stringWithString:_verifyPassWordField.text];
         
-        NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str],_phoneTextField.text];
+        NSString* passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str],[[NSUserDefaults standardUserDefaults] stringForKey:@"mobile"]];
         
         self.md5PassWord= [Commonality MD5:passWordText];
         
         NSMutableString*str2=[NSMutableString stringWithString:_phoneTextField.text];
         
-        passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str2],_phoneTextField.text];
+        passWordText = [NSString stringWithFormat:@"%@$^i@#*Vm!all%@",[Commonality MD5:str2],[[NSUserDefaults standardUserDefaults] stringForKey:@"mobile"]];
         
         NSString*old=[Commonality MD5:passWordText];
         
@@ -544,6 +544,8 @@
                 [self releaseTImer];
                 
                 [self performSelector:@selector(show) withObject:self afterDelay:0.6];
+            }else{
+                [Commonality showErrorMsg:self type:0 msg:@"旧密码错误!"];
             }
         }
         

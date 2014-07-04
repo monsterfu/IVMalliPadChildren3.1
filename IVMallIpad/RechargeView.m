@@ -210,7 +210,7 @@
         myTableView.scrollEnabled = NO;
         [alipayView addSubview:myTableView];
         
-        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 80, 50, 30)];
+        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 60, 50, 30)];
         lab.backgroundColor = [UIColor clearColor];
         lab.text = @"总价:";
         lab.alpha = alpha_4;
@@ -218,7 +218,7 @@
         lab.textColor = [UIColor blackColor];
         [alipayView addSubview:lab];
         
-        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 85, 180, 40)];
+        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 65, 180, 40)];
         pointLab.backgroundColor = [UIColor clearColor];
         pointLab.alpha = 1;
         pointLab.font = font_8;
@@ -226,7 +226,7 @@
         [alipayView addSubview:pointLab];
         
         UIButton * aliPayBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 45 - 130, alipayView.frame.size.height - 95, 130, 51);
+        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 45 - 130, alipayView.frame.size.height - 75, 130, 51);
 //        [aliPayBtn1 redStyle];
         aliPayBtn1.backgroundColor = color_4;
         [aliPayBtn1 childrenBtnStyleForBtn:aliPayBtn1];
@@ -392,7 +392,7 @@
         myTableView.scrollEnabled = NO;
         [alipayView addSubview:myTableView];
         
-        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 80, 50, 30)];
+        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(25, alipayView.frame.size.height - 60, 50, 30)];
         lab.backgroundColor = [UIColor clearColor];
         lab.text = @"总价:";
         lab.alpha = alpha_4;
@@ -400,7 +400,7 @@
         lab.textColor = [UIColor blackColor];
         [alipayView addSubview:lab];
         
-        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 85, 180, 40)];
+        pointLab = [[UILabel alloc] initWithFrame:CGRectMake(80, alipayView.frame.size.height - 65, 180, 40)];
         pointLab.backgroundColor = [UIColor clearColor];
         pointLab.alpha = 1;
         pointLab.font = font_8;
@@ -408,7 +408,7 @@
         [alipayView addSubview:pointLab];
         
         UIButton * aliPayBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 45 - 130, alipayView.frame.size.height - 95, 130, 51);
+        aliPayBtn1.frame = CGRectMake(alipayView.frame.size.width - 45 - 130, alipayView.frame.size.height - 75, 130, 51);
 //        [aliPayBtn1 redStyle];
         aliPayBtn1.backgroundColor = color_4;
         [aliPayBtn1 childrenBtnStyleForBtn:aliPayBtn1];

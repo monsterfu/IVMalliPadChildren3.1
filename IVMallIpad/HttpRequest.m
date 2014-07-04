@@ -159,7 +159,7 @@
     }
     else
     {
-        [self Request:PLAYEVEDIO postdate:[NSString stringWithFormat:@"{\"token\":\"%@\",\"protocol\":\"%@\",\"deviceDRMId\":\"%@\",\"DRMType\":\"%@\",\"deviceGroup\":\"%@\",\"contentGuid\":\"%@\",\"startTime\":\"%@\",\"endTime\":\"%@\",\"promoter\":\"ivmall\",\"client\":\"%@\",\"appVersion\":\"%@\",\"lang\":\"%@\"}",token,protocol, deviceDRMId, DRMType, deviceGroup, contentGuid, startTime,endTime,@"ios",IVMALL_VERSION,lang] tag:PLAYEVEDIO_type delegate:delegate finishSel:finishSel failSel:failSel];
+        [self Request:PLAYEVEDIO postdate:[NSString stringWithFormat:@"{\"token\":\"%@\",\"protocol\":\"%@\",\"deviceDRMId\":\"%@\",\"DRMType\":\"%@\",\"deviceGroup\":\"%@\",\"contentGuid\":\"%@\",\"startTime\":\"%@\",\"endTime\":\"%@\",\"promoter\":\"ivmall\",\"client\":\"%@\",\"appVersion\":\"%@\",\"lang\":\"%@\"}",token,protocol, deviceDRMId, DRMType, deviceGroup, contentGuid, startTime,endTime,@"ipad",IVMALL_VERSION,lang] tag:PLAYEVEDIO_type delegate:delegate finishSel:finishSel failSel:failSel];
     }
     
     

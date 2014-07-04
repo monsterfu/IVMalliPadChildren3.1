@@ -40,7 +40,9 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-    [self setNeedsStatusBarAppearanceUpdate];
+    if (IOS7) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
 
     UIView * navGationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.height, 45)];
     navGationBar.backgroundColor = color_6;
@@ -280,7 +282,7 @@
 }
 -(void)redrawUserView
 {
-    [_userView reloder];
+//    [_userView reloder];
     [self showUserInfoView];
 }
 -(void)showMyRegistView

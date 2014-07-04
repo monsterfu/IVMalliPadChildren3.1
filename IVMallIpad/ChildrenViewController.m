@@ -151,6 +151,7 @@
     
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_CollectChanged object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_LoginOut object:nil];
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(CollectChanged) name:NSNotificationCenter_LoginIn object:nil];
 }
 
 -(void)CollectChanged
@@ -161,6 +162,7 @@
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_CollectChanged object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_LoginOut object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSNotificationCenter_LoginIn object:nil];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {

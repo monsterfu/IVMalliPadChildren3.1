@@ -107,6 +107,14 @@
 
 -(void) GetErr:(ASIHTTPRequest *)request{
     [Commonality showErrorMsg:self type:0 msg:@"网络连接异常，请重试"];
+    [self changeFavouriteState];
+    if (request.tag==ADDFAVORITE_TYPE){
+        [_favouriteBtn setBackgroundImage:[UIImage imageNamed:@"onLIveCollec.png"] forState:(UIControlStateNormal)];
+        self.isCollect = NO;
+    }else{
+        [_favouriteBtn setBackgroundImage:[UIImage imageNamed:@"onLIveCollec2.png"] forState:(UIControlStateNormal)];
+        self.isCollect = YES;
+    }
 }
 
 
@@ -125,6 +133,8 @@
                 self.isCollect = YES;
                 [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:self userInfo:nil];
             }else{
+                [_favouriteBtn setBackgroundImage:[UIImage imageNamed:@"onLIveCollec.png"] forState:(UIControlStateNormal)];
+                self.isCollect = NO;
                 [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];
             }
         }else if (request.tag==CANFAVORITE_TYPE){
@@ -135,6 +145,8 @@
                 [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:self userInfo:nil];
             }else{
                 [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];
+                [_favouriteBtn setBackgroundImage:[UIImage imageNamed:@"onLIveCollec2.png"] forState:(UIControlStateNormal)];
+                self.isCollect = YES;
             }
         }
 

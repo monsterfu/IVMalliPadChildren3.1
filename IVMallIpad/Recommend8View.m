@@ -247,28 +247,21 @@
     CHECK_NONERETURN(self.myArray.count > sender.tag - 1000);
     ChannelCatContentListModel*catModel=[self.myArray objectAtIndex:sender.tag-1000];
     UILabel*lab=(UILabel*)[self viewWithTag:sender.tag+10000];
-   
+    collectButton = sender;
     if (catModel.isCollect==0) {
-        lab.text=[NSString stringWithFormat:@"%i",lab.text.intValue+1];
         if ([catModel.contentType isEqualToString:@"live"]) {
-            [sender setBackgroundImage:[UIImage imageNamed:@"Collection2.png"] forState:(UIControlStateNormal)];
+            isLive = YES;
         }else{
-            [sender setBackgroundImage:[UIImage imageNamed:@"onLIveCollec2.png"] forState:(UIControlStateNormal)];
+            isLive = NO;
         }
-        
-        catModel.isCollect=1;
-        catModel.favoriteCount +=1;
         [HttpRequest addFavorRequest:[AppDelegate App].personModel.tokenid contentGiud:catModel.contentGuid delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
     }else{
         
         if ([catModel.contentType isEqualToString:@"live"]) {
-            [sender setBackgroundImage:[UIImage imageNamed:@"Collection3.png"] forState:(UIControlStateNormal)];
+            isLive = YES;
         }else{
-            [sender setBackgroundImage:[UIImage imageNamed:@"onLIveCollec.png"] forState:(UIControlStateNormal)];
+            isLive = NO;
         }
-        lab.text=[NSString stringWithFormat:@"%i",lab.text.intValue-1];
-        catModel.isCollect=0;
-        catModel.favoriteCount -=1;
         [HttpRequest caelFavorWithConteng:[AppDelegate App].personModel.tokenid contentGiud:catModel.contentGuid delegate:self finishSel:@selector(GetResult:) failSel:@selector(GetErr:)];
     }
     
@@ -284,17 +277,37 @@
     NSLog(@"%@",[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
     NSError *error;
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+    
+    ChannelCatContentListModel*catModel=[self.myArray objectAtIndex:collectButton.tag-1000];
+    UILabel*lab=(UILabel*)[self viewWithTag:collectButton.tag+10000];
     if (dictionary==nil) {
         [Commonality showErrorMsg:self type:0 msg:@"网络连接异常，请重试"];
     }else{
         if (request.tag==ADDFAVORITE_TYPE){
             if ([[dictionary objectForKey:@"errorCode"]intValue]==0) {
+                lab.text=[NSString stringWithFormat:@"%i",lab.text.intValue+1];
+                if (isLive) {
+                    [collectButton setBackgroundImage:[UIImage imageNamed:@"Collection2.png"] forState:(UIControlStateNormal)];
+                }else{
+                    [collectButton setBackgroundImage:[UIImage imageNamed:@"onLIveCollec2.png"] forState:(UIControlStateNormal)];
+                }
+                catModel.isCollect=1;
+                catModel.favoriteCount +=1;
                 [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:nil];
             }else{
                  [Commonality showErrorMsg:self type:[[dictionary objectForKey:@"errorCode"]intValue] msg:@"网络连接异常，请重试"];
             }
         }else if (request.tag==CANFAVORITE_TYPE){
             if ([[dictionary objectForKey:@"errorCode"]intValue]==0) {
+                
+                if (isLive) {
+                    [collectButton setBackgroundImage:[UIImage imageNamed:@"Collection3.png"] forState:(UIControlStateNormal)];
+                }else{
+                    [collectButton setBackgroundImage:[UIImage imageNamed:@"onLIveCollec.png"] forState:(UIControlStateNormal)];
+                }
+                lab.text=[NSString stringWithFormat:@"%i",lab.text.intValue-1];
+                catModel.isCollect=0;
+                catModel.favoriteCount -=1;
                 [[NSNotificationCenter defaultCenter]postNotificationName:NSNotificationCenter_CollectChanged object:nil];
             }else{
                
